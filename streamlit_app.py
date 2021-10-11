@@ -308,13 +308,13 @@ def savedata(p, sig, fieldrangeT, name):
 
 def graph(x, y, xlab, ylab, pltlabel, plthead):
    fig = plt.figure()
-   _ = plt.plot(x, y, label = pltlabel)
+   plt.plot(x, y, label = pltlabel)
    ax = plt.axes()
    ax.set(xlabel = xlab, ylabel = ylab)
    plt.title(plthead)
    plt.legend()
    return fig
-fig = graph(fieldrangeT, signal2w, "x", "y", "Plot", "Head" )#r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', )
+fig2 = graph(fieldrangeT, signal2w, "x", "y", "Plot", "Head" )#r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', )
   
 #arr = np.random.normal(1, 1, size=100)
 
@@ -337,6 +337,7 @@ plt.title("Current density " + str(je) + "e10 [A/m2]" )
 #ax.hist(arr, bins=20)
 
 st.pyplot(fig)
+st.pyplot(fig2)
 
 #chart_data = pd.DataFrame()
 
