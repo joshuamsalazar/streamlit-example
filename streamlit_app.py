@@ -176,8 +176,13 @@ def calc_w1andw2(m0_,t0_,t1_,dt_,paramters_):
     
     #Final value of the current-induced field
     #H_eff = print(npresults[-1,4],npresults[-1,5],npresults[-1,6])
-    return(R1w,R2w,npresults[-1,4],npresults[-1,5],npresults[-1,6],npresults[-1,1],npresults[-1,2],npresults[-1,3], Hs, nR2w, lR2w, fR2w)
-
+    #return(R1w,R2w,npresults[-1,4],npresults[-1,5],npresults[-1,6],npresults[-1,1],npresults[-1,2],npresults[-1,3], Hs, nR2w, lR2w, fR2w)
+    return(R1w,R2w, 
+           magList[0], # ZZZ re-write function to save memory (duplicated time array)
+           npresults[:,4],npresults[:,5],npresults[:,6],
+           magList[1], magList[2], magList[3],
+           Hs, nR2w, lR2w, fR2w)
+    
 paramters = Parameters()
 n = 21
 phirange   = np.linspace(-np.pi/2,           np.pi*3/2,         num=n)
@@ -186,6 +191,7 @@ signal2w  = []
 nsignal2w = []
 lsignal2w = []
 fsignal2w = []
+timeEvol = []
 Hx,Hy,Hz = [[],[],[]]
 Mx,My,Mz = [[],[],[]]
 fieldrangeT =[]
@@ -203,8 +209,9 @@ if longitudinalSweep:
         paramters.hext = np.array([i,0,0])
         initm=[0,0,1]
         initm=np.array(initm)/np.linalg.norm(initm)
-        R1w,R2w,hx,hy,hz,mx,my,mz, Hs, nR2w, lR2w, fR2w = calc_w1andw2(m0_=initm,t0_=0,t1_=4/paramters.frequency,dt_=1/(periSampl * paramters.frequency), paramters_=paramters)
+        R1w,R2w, t,hx,hy,hz,mx,my,mz, Hs, nR2w, lR2w, fR2w = calc_w1andw2(m0_=initm,t0_=0,t1_=4/paramters.frequency,dt_=1/(periSampl * paramters.frequency), paramters_=paramters)
         #Storing each current-induced field and magnetization state for each ext field value
+        timeEvol.append(t)
         Hx.append(hx)
         Hy.append(hy)
         Hz.append(hz)
@@ -273,9 +280,20 @@ def graph(x, y, xlab, ylab, pltlabel, plthead):
    plt.legend()
    return fig
 
+def traj(t, mx, my, mz, plthead):
+   fig, ax = plt.subplots()
+   plt.plot(t, mx, label = r'$m_x$')
+   plt.plot(t, my, label = r'$m_y$')
+   plt.plot(t, mz, label = r'$m_z$')
+   ax.set(xlabel = "time [ns]", ylabel = r'$m_i$')
+   plt.title(plthead)
+   plt.legend()
+   return fig
+
 figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
 figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
  
+figtraj0 = traj(timeEvol[0], Mx[0], My[0], Mz[0], "Evolution at XXX") #index denotes field sweep step
      #checking the 'equilibrium' magnetization directions
     #plt.plot(fieldrangeT, Mx,'b',label='m_x')
     #plt.plot(fieldrangeT, My,'g',label='m_y')
@@ -288,7 +306,7 @@ figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w",
 
 st.pyplot(figv1w)
 st.pyplot(figv2w)
-print(Hx.shape)
+st.pyplot(figtraj0)
 
 
 
