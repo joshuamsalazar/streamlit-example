@@ -295,7 +295,7 @@ def graphm(t, mx, my, mz, xlab, ylab, plthead):
 figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
 figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
 
-figamr = graph(fieldrangeT, amrList, '', '', '')
+figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', 'AMR effect')
 
 figtraj0 = graphm(timeEvol[0], Mx[0], My[0], Mz[0], "time [ns]", r'$m_i$',  "Evolution at XXX") #index denotes field sweep step
      #checking the 'equilibrium' magnetization directions
