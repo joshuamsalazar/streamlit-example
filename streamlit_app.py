@@ -179,7 +179,7 @@ def calc_w1andw2(m0_,t0_,t1_,dt_,paramters_):
     return(R1w,R2w,npresults[-1,4],npresults[-1,5],npresults[-1,6],npresults[-1,1],npresults[-1,2],npresults[-1,3], Hs, nR2w, lR2w, fR2w)
 
 paramters = Parameters()
-n = 101
+n = 21
 phirange   = np.linspace(-np.pi/2,           np.pi*3/2,         num=n)
 signalw  = []
 signal2w  = []
@@ -285,18 +285,24 @@ def savedata(p, sig, fieldrangeT, name):
                 + '\t' + str(p.frequency) + '\n')
         f.close()
 
-def stplot(x, y, xlab, ylab, head, name):
-    p = figure(
+#def stplot(x, y, xlab, ylab, head, name):
+#    p = figure(
+#      title=head,
+#     x_axis_label=xlab,
+#      y_axis_label=ylab)
+    
+#    p.line(x, y, legend_label = name, line_width=2)
+#    plot = st.bokeh_chart(p, use_container_width=True)
+#    return plot
+  
+#stplot(fieldrangeT, signal2w, "H_ext", "V2w", "Harmonics", "line")
+p = figure(
       title=head,
       x_axis_label=xlab,
       y_axis_label=ylab)
     
-    p.line(x, y, legend_label = name, line_width=2)
-    plot = st.bokeh_chart(p, use_container_width=True)
-    return plot
-  
-stplot(fieldrangeT, signal2w, "H_ext", "V2w", "Harmonics", "line")
-    
+p.line(x, y, legend_label = name, line_width=2)
+plot = st.bokeh_chart(p, use_container_width=True)
 
 
 #from collections import namedtuple
