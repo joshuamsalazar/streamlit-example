@@ -246,26 +246,6 @@ if rotationalSweep:
             nsignal2w.append(nR2w)
             #Live prompt
             print( h, R1w, R2w, 'Pi:'+str(i%(2*np.pi)), '\tHk,Hd', round(Hs[0]), round(Hs[1]), mx, my, mz)
-
-def showplot():
-    #checking the 'equilibrium' magnetization directions
-    #plt.plot(fieldrangeT, Mx,'b',label='m_x')
-    #plt.plot(fieldrangeT, My,'g',label='m_y')
-    
-    #plt.plot(fieldrangeT, signalw, label = 'Vw')
-    plt.plot(fieldrangeT, signal2w, label = 'V2w')
-    #plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
-    #plt.plot(fieldrangeT, fsignal2w, label = 'fft r2w')
-    #plt.plot(fieldrangeT, Mz,'r', label='m_z')
-    #plt.plot(fieldrangeT, np.array(signal2w) - np.array(nsignal2w), label = 'diff r2w')
-    #plt.plot(fieldrangeT, H,'r')
-    ax=plt.axes()
-    plt.savefig('signal.png' )
-    #ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
-    ax.set(xlabel = r'$\mu_0 H_x$ (T)',ylabel = r'$V_{2w} [V]$ ')
-    plt.title("Current density " + str(je) + "e10 [A/m2]" )
-    plt.legend()
-    plt.show()
     
 def savedata(p, sig, fieldrangeT, name):
     #Storing the data into a dat file with the following strcture:
@@ -293,19 +273,20 @@ def graph(x, y, xlab, ylab, pltlabel, plthead):
    plt.legend()
    return fig
 
-fig = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
-  
+figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
+figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
+ 
+     #checking the 'equilibrium' magnetization directions
+    #plt.plot(fieldrangeT, Mx,'b',label='m_x')
+    #plt.plot(fieldrangeT, My,'g',label='m_y')
 ##plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
 ##plt.plot(fieldrangeT, fsignal2w, label = 'fft r2w')
 ##plt.plot(fieldrangeT, Mz,'r', label='m_z')
-##plt.plot(fieldrangeT, np.array(signal2w) - np.array(nsignal2w), label = 'diff r2w')
 ##plt.plot(fieldrangeT, H,'r')
 ##ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
 
-st.pyplot(fig)
 
-#chart_data = pd.DataFrame()
-
-#st.line_chart(chart_data)
+st.pyplot(figv1w)
+st.pyplot(figv2w)
 
 
