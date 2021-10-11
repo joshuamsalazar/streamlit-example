@@ -296,14 +296,13 @@ def savedata(p, sig, fieldrangeT, name):
 #    return plot
   
 #stplot(fieldrangeT, signal2w, "H_ext", "V2w", "Harmonics", "line")
-#p = figure(
-#      title="title",
-#      x_axis_label="Hext",
-#      y_axis_label="V2w")
+p = figure(
+      title="title",
+      x_axis_label="Hext",
+      y_axis_label="V2w")
     
-#p.line(fieldrangeT, signal2w, legend_label = "line", line_width=2)
-#st.bokeh_chart(p, use_container_width=True)
-#show(p)
+p.line(fieldrangeT, signal2w, legend_label = "line", line_width=2)
+st.bokeh_chart(p)
 
 #showplot()
 
@@ -316,7 +315,7 @@ def graph(x, y, xlab, ylab, pltlabel, plthead):
    plt.legend()
    return fig
 
-arr = np.random.normal(1, 1, size=100)
+#arr = np.random.normal(1, 1, size=100)
 
 #fig = plt.plot(fieldrangeT, signal2w, label = 'V2w')
 ##plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
@@ -335,7 +334,12 @@ arr = np.random.normal(1, 1, size=100)
 #fig, ax = plt.subplots()
 #ax.hist(arr, bins=20)
 
-fig = graph(fieldrangeT, signal2w, "x", "y", "Plot", "Head" )#r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', )
+#fig = graph(fieldrangeT, signal2w, "x", "y", "Plot", "Head" )#r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', )
 
-st.pyplot(fig)
+#st.pyplot(fig)
+
+#chart_data = pd.DataFrame()
+
+#st.line_chart(chart_data)
+
 
