@@ -285,27 +285,6 @@ def savedata(p, sig, fieldrangeT, name):
                 + '\t' + str(p.frequency) + '\n')
         f.close()
 
-#def stplot(x, y, xlab, ylab, head, name):
-#    p = figure(
-#      title=head,
-#     x_axis_label=xlab,
-#      y_axis_label=ylab)
-    
-#    p.line(x, y, legend_label = name, line_width=2)
-#    plot = st.bokeh_chart(p, use_container_width=True)
-#    return plot
-  
-#stplot(fieldrangeT, signal2w, "H_ext", "V2w", "Harmonics", "line")
-#p = figure(
-#      title="title",
-#      x_axis_label="Hext",
-#      y_axis_label="V2w")
-    
-#p.line(fieldrangeT, signal2w, legend_label = "line", line_width=2)
-#st.bokeh_chart(p)
-
-#showplot()
-
 def graph(x, y, xlab, ylab, pltlabel, plthead):
    fig, ax = plt.subplots()
    plt.plot(x, y, label = pltlabel)
@@ -313,30 +292,17 @@ def graph(x, y, xlab, ylab, pltlabel, plthead):
    plt.title(plthead)
    plt.legend()
    return fig
-fig2 = graph(fieldrangeT, signal2w, "x", "y", "Plot", "Head" )#r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', )
-  
-#arr = np.random.normal(1, 1, size=100)
 
-fig, ax = plt.subplots()
-plt.plot(fieldrangeT, signal2w, label = 'V2w')
+fig = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
+  
 ##plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
 ##plt.plot(fieldrangeT, fsignal2w, label = 'fft r2w')
 ##plt.plot(fieldrangeT, Mz,'r', label='m_z')
 ##plt.plot(fieldrangeT, np.array(signal2w) - np.array(nsignal2w), label = 'diff r2w')
 ##plt.plot(fieldrangeT, H,'r')
-#ax=plt.axes()
-#plt.savefig('signal.png' )
 ##ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
-ax.set(xlabel = r'$\mu_0 H_x$ (T)',ylabel = r'$V_{2w} [V]$ ')
-plt.title("Current density " + str(je) + "e10 [A/m2]" )
-#plt.legend()
-#plt.show()
-
-#fig, ax = plt.subplots()
-#ax.hist(arr, bins=20)
 
 st.pyplot(fig)
-st.pyplot(fig2)
 
 #chart_data = pd.DataFrame()
 
