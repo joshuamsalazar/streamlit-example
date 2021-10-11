@@ -315,7 +315,7 @@ selected_field = st.select_slider('Check the trajectories for a field value',
                 options = fieldrange.tolist())
 st.write("Field value", selected_field*paramters.mu0, "[T]")
 
-s_index = fieldrange.tolist().index(selected_field))
+s_index = fieldrange.tolist().index(selected_field)
 
 figtraj = graphm(timeEvol[s_index], Mx[s_index], My[s_index], Mz[s_index],
                   "time [ns]", r'$m_i$',  
