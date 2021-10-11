@@ -280,12 +280,12 @@ def graph(x, y, xlab, ylab, pltlabel, plthead):
    plt.legend()
    return fig
 
-def traj(t, mx, my, mz, plthead):
+def graphm(t, mx, my, mz, xlab, ylab, plthead):
    fig, ax = plt.subplots()
    plt.plot(t, mx, label = r'$m_x$')
    plt.plot(t, my, label = r'$m_y$')
    plt.plot(t, mz, label = r'$m_z$')
-   ax.set(xlabel = "time [ns]", ylabel = r'$m_i$')
+   ax.set(xlabel = xlab, ylabel = ylab)
    plt.title(plthead)
    plt.legend()
    return fig
@@ -293,7 +293,7 @@ def traj(t, mx, my, mz, plthead):
 figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
 figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
  
-figtraj0 = traj(timeEvol[0], Mx[0], My[0], Mz[0], "Evolution at XXX") #index denotes field sweep step
+figtraj0 = graphm(timeEvol[0], Mx[0], My[0], Mz[0], "time [ns]", r'$m_i$',  "Evolution at XXX") #index denotes field sweep step
      #checking the 'equilibrium' magnetization directions
     #plt.plot(fieldrangeT, Mx,'b',label='m_x')
     #plt.plot(fieldrangeT, My,'g',label='m_y')
@@ -307,11 +307,14 @@ figtraj0 = traj(timeEvol[0], Mx[0], My[0], Mz[0], "Evolution at XXX") #index den
 
 st.pyplot(figv1w)
 st.pyplot(figv2w)
-print(fieldrange.tolist())
+
+"""
+Magnetization trajetories for each field value
+"""
 selected_field = st.select_slider('Check the trajectories for a field value',
                 options = fieldrange.tolist())
-st.write("Field value", selected_field)
-
+st.write("Field value", selected_field*paramters.mu0, "[T]")
+st.write("The index is", fieldrange.tolist().index(selected_field))
 
 st.pyplot(figtraj0)
 
