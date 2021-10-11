@@ -304,8 +304,15 @@ figtraj0 = traj(timeEvol[0], Mx[0], My[0], Mz[0], "Evolution at XXX") #index den
 ##ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
 
 
+
 st.pyplot(figv1w)
 st.pyplot(figv2w)
+
+selected_field = st.select_slider('Check the trajectories for a field value',
+                fieldrange)
+st.write("Field value", selected_field)
+
+
 st.pyplot(figtraj0)
 
 
