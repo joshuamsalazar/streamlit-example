@@ -10,11 +10,16 @@ from functools import partial
 import os, sys
 from bokeh.plotting import figure, show
 
+st.title('LLG integrator: Single-spin model')
+st.write("University of Vienna \n Physics of Functional Materials")
+
+k1 = float(st.text_input('Anisotropy constant' + r'$K_1$', 1.5 * 9100)
 je = st.selectbox("Current density A [10^01 A/m^2] ",
                      [1, 10, 100])
  
 # print the selected hobby
 st.write("Your current density is: ", je)
+st.write('The current movie title is', k1)
 
 periSampl = 1000
 
