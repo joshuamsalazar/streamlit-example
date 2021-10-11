@@ -307,9 +307,8 @@ def savedata(p, sig, fieldrangeT, name):
 #showplot()
 
 def graph(x, y, xlab, ylab, pltlabel, plthead):
-   fig = plt.figure()
+   fig, ax = plt.subplots()
    plt.plot(x, y, label = pltlabel)
-   ax = plt.axes()
    ax.set(xlabel = xlab, ylabel = ylab)
    plt.title(plthead)
    plt.legend()
