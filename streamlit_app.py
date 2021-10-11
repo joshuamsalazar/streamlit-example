@@ -301,7 +301,7 @@ p = figure(
       x_axis_label="Hext",
       y_axis_label="V2w")
     
-p.linefieldrangeT, signal2w, legend_label = "line", line_width=2)
+p.line(fieldrangeT, signal2w, legend_label = "line", line_width=2)
 plot = st.bokeh_chart(p, use_container_width=True)
 
 
