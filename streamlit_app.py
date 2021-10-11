@@ -309,7 +309,7 @@ st.pyplot(figv1w)
 st.pyplot(figv2w)
 print(fieldrange.tolist())
 selected_field = st.select_slider('Check the trajectories for a field value',
-                options = ['1', '2'])
+                options = fieldrange.tolist())
 st.write("Field value", selected_field)
 
 
