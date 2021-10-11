@@ -288,7 +288,7 @@ figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w",
 
 st.pyplot(figv1w)
 st.pyplot(figv2w)
-Hx.shape
+print(Hx.shape)
 
 
 
