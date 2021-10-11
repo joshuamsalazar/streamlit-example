@@ -263,7 +263,7 @@ def showplot():
     plt.savefig('signal.png' )
     #ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
     ax.set(xlabel = r'$\mu_0 H_x$ (T)',ylabel = r'$V_{2w} [V]$ ')
-    plt.title("Current density " + str(sys.argv[1]) + "e10 [A/m2]" )
+    plt.title("Current density " + str(je) + "e10 [A/m2]" )
     plt.legend()
     plt.show()
     
