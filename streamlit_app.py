@@ -308,8 +308,23 @@ def savedata(p, sig, fieldrangeT, name):
 #showplot()
 
 arr = np.random.normal(1, 1, size=100)
-fig, ax = plt.subplots()
-ax.hist(arr, bins=20)
+
+fig = plt.plot(fieldrangeT, signal2w, label = 'V2w')
+#plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
+#plt.plot(fieldrangeT, fsignal2w, label = 'fft r2w')
+#plt.plot(fieldrangeT, Mz,'r', label='m_z')
+#plt.plot(fieldrangeT, np.array(signal2w) - np.array(nsignal2w), label = 'diff r2w')
+#plt.plot(fieldrangeT, H,'r')
+ax=plt.axes()
+plt.savefig('signal.png' )
+#ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
+ax.set(xlabel = r'$\mu_0 H_x$ (T)',ylabel = r'$V_{2w} [V]$ ')
+plt.title("Current density " + str(je) + "e10 [A/m2]" )
+plt.legend()
+plt.show()
+
+#fig, ax = plt.subplots()
+#ax.hist(arr, bins=20)
 
 st.pyplot(fig)
 
