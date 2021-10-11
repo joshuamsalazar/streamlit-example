@@ -307,9 +307,9 @@ figtraj0 = traj(timeEvol[0], Mx[0], My[0], Mz[0], "Evolution at XXX") #index den
 
 st.pyplot(figv1w)
 st.pyplot(figv2w)
-
+print(fieldrange.tolist())
 selected_field = st.select_slider('Check the trajectories for a field value',
-                fieldrange)
+                options = ['1', '2'])
 st.write("Field value", selected_field)
 
 
