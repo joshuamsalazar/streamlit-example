@@ -314,7 +314,7 @@ Magnetization trajetories for each field value
 if st.checkbox("Show relaxation of magnetization", False):
     selected_field = st.select_slider('Check the trajectories for a field value [A/m]',
                     options = fieldrange.tolist())
-    st.write("Field value equivalent to", tr( round(selected_field*paramters.mu0, 3) ), "[T]")
+    st.write("Field value equivalent to", str( round(selected_field*paramters.mu0, 3) ), "[T]")
 
     s_index = fieldrange.tolist().index(selected_field)
 
