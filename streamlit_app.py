@@ -8,7 +8,7 @@ import scipy.optimize
 import matplotlib.pyplot as plt
 from functools import partial
 import os, sys
-from bokeh.plotting import figure
+from bokeh.plotting import figure, show
 
 je = st.selectbox("Current density A [10^01 A/m^2] ",
                      [1, 10, 100])
@@ -303,6 +303,7 @@ p = figure(
     
 p.line(fieldrangeT, signal2w, legend_label = "line", line_width=2)
 st.bokeh_chart(p, use_container_width=True)
+show(p)
 
 
 #from collections import namedtuple
