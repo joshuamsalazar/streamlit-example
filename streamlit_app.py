@@ -13,20 +13,15 @@ from bokeh.plotting import figure, show
 st.title('LLG integrator: Single-spin model')
 st.write("University of Vienna \n Physics of Functional Materials")
 
-k1 = float(st.text_input('Anisotropy constant' + r'$K_1$', 1.5 * 9100))
-je = st.selectbox("Current density A [10^01 A/m^2] ",
-                     [1, 10, 100])
- 
-# print the selected hobby
-st.write("Your current density is: ", je)
-st.write('The current movie title is', k1)
+k1 = float(st.text_input('Anisotropy constant K_1 [J/m^3]', 1.5 * 9100))
+je = float(st.text_input('Current density j_e [10^10 A/m^2]', 10))
 
 periSampl = 1000
 
 class Parameters:
     gamma = 2.2128e5
     alpha = 1.0
-    K1 = 1.5 * 9100   
+    K1 = k1   
     Js = 0.46
     RAHE = 0.65 
     d = (0.6+1.2+1.1) * 1e-9      
@@ -293,5 +288,7 @@ figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w",
 
 st.pyplot(figv1w)
 st.pyplot(figv2w)
+Hx.shape
+
 
 
