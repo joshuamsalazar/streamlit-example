@@ -295,7 +295,7 @@ def stplot(x, y, xlab, ylab, head, name):
     plot = st.bokeh_chart(p, use_container_width=True)
     return plot
   
- stplot(fieldrangeT, signal2w, "H_ext", "V2w", "Harmonics", "line")
+stplot(fieldrangeT, signal2w, "H_ext", "V2w", "Harmonics", "line")
     
 
 
