@@ -302,7 +302,7 @@ p = figure(
       y_axis_label="V2w")
     
 p.line(fieldrangeT, signal2w, legend_label = "line", line_width=2)
-plot = st.bokeh_chart(p, use_container_width=True)
+st.bokeh_chart(p, use_container_width=True)
 
 
 #from collections import namedtuple
@@ -312,16 +312,16 @@ plot = st.bokeh_chart(p, use_container_width=True)
 #import streamlit as st
 #import numpy as np
 
-"""
+#"""
 # Welcome to Streamlit!
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
+#Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
 
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+#If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
+#forums](https://discuss.streamlit.io).#
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+#In the meantime, below is an example of what you can do with just a few lines of code:
+#"""
 
 #chart_data = pd.DataFrame(
 #     np.random.randn(20, 3),
