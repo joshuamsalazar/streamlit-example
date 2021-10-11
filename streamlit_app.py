@@ -307,24 +307,35 @@ def savedata(p, sig, fieldrangeT, name):
 
 #showplot()
 
+def graph(x, y, xlab, ylab, pltlabel, plthead):
+   fig = plt.figure()
+   _ = plt.plot(x, y, label = pltlabel)
+   ax = plt.axes()
+   ax.set(xlabel = xlab, ylabel = ylab)
+   plt.title(plthead)
+   plt.legend()
+   return fig
+
 arr = np.random.normal(1, 1, size=100)
 
-fig = plt.plot(fieldrangeT, signal2w, label = 'V2w')
-#plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
-#plt.plot(fieldrangeT, fsignal2w, label = 'fft r2w')
-#plt.plot(fieldrangeT, Mz,'r', label='m_z')
-#plt.plot(fieldrangeT, np.array(signal2w) - np.array(nsignal2w), label = 'diff r2w')
-#plt.plot(fieldrangeT, H,'r')
-ax=plt.axes()
-plt.savefig('signal.png' )
-#ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
-ax.set(xlabel = r'$\mu_0 H_x$ (T)',ylabel = r'$V_{2w} [V]$ ')
-plt.title("Current density " + str(je) + "e10 [A/m2]" )
-plt.legend()
-plt.show()
+#fig = plt.plot(fieldrangeT, signal2w, label = 'V2w')
+##plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
+##plt.plot(fieldrangeT, fsignal2w, label = 'fft r2w')
+##plt.plot(fieldrangeT, Mz,'r', label='m_z')
+##plt.plot(fieldrangeT, np.array(signal2w) - np.array(nsignal2w), label = 'diff r2w')
+##plt.plot(fieldrangeT, H,'r')
+#ax=plt.axes()
+#plt.savefig('signal.png' )
+##ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
+#ax.set(xlabel = r'$\mu_0 H_x$ (T)',ylabel = r'$V_{2w} [V]$ ')
+#plt.title("Current density " + str(je) + "e10 [A/m2]" )
+#plt.legend()
+#plt.show()
 
 #fig, ax = plt.subplots()
 #ax.hist(arr, bins=20)
+
+fig = graph(fieldrangeT, signal2w, "x", "y", "Plot", "Head" )#r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', )
 
 st.pyplot(fig)
 
