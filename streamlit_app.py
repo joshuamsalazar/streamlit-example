@@ -305,6 +305,11 @@ def savedata(p, sig, fieldrangeT, name):
 #st.bokeh_chart(p, use_container_width=True)
 #show(p)
 
-showplot()
+#showplot()
 
+arr = np.random.normal(1, 1, size=100)
+fig, ax = plt.subplots()
+ax.hist(arr, bins=20)
+
+st.pyplot(fig)
 
