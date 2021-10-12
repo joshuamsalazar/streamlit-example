@@ -226,11 +226,11 @@ if longitudinalSweep:
         lsignal2w.append(lR2w)
         fsignal2w.append(fR2w)
         phirangeRad.append(0)
-        #amrList.append(mx[-1]*mx[-1])
-        print(mx[-1])
+        amrList.append(mx[-1]*mx[-1])
+        #print(mx[-1])
         
         #Live prompt
-        #print(i, R1w, R2w, '\tHk,Hd', round(Hs[0]), round(Hs[1]), mx, my, mz)
+        print(i, R1w, R2w, '\tHk,Hd', round(Hs[0]), round(Hs[1]), mx[-1], my[-1], mz[-1])
 
 if rotationalSweep:
     name = "_HconsRotat"
@@ -297,7 +297,7 @@ def graphm(t, mx, my, mz, xlab, ylab, plthead):
 figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
 figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
 
-#figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', 'AMR effect')
+figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', r'$m_x^2$','AMR effect')
 
 figtraj0 = graphm(timeEvol[0], Mx[0], My[0], Mz[0], "time [ns]", r'$m_i$',  "Evolution at XXX") #index denotes field sweep step
      #checking the 'equilibrium' magnetization directions
@@ -313,7 +313,7 @@ figtraj0 = graphm(timeEvol[0], Mx[0], My[0], Mz[0], "time [ns]", r'$m_i$',  "Evo
 
 st.pyplot(figv1w)
 st.pyplot(figv2w)
-#st.pyplot(figamr)
+st.pyplot(figamr)
 
 """
 Magnetization trajetories for each field value
