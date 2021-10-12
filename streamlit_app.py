@@ -21,7 +21,8 @@ st.write('The following page describes the details to consider to efficiently si
 st.subheader('Theoretical description')
 
 st.write('The system described by the model is a typical FM/HM interface. In our specific case, a Hall cross with a thin ferromagnetic layer displaying an out of plane magnetization (fig. 1).  ')
-st.image("https://journals.aps.org/prb/article/10.1103/PhysRevB.89.144425/figures/1/medium")
+st.image("https://journals.aps.org/prb/article/10.1103/PhysRevB.89.144425/figures/1/medium",
+        caption = "*Fig. 1* Hall bar structure. Adapted from Phys. Rev. B 89, 144425 (2014)")
 
 st.write('The LLG equation employed in the model is in explicit form and takes the Slonczewsky ($\eta_{\text{SOT}}$ and $\eta_{\text{FL}}$) spin-orbit-torque coefficients as input. It goes as follows:')
 st.latex(r''' \frac{\partial \vec{m}}{\partial t} =
