@@ -17,7 +17,7 @@ st.sidebar.markdown("## Parameters used in the simulation"
 	)
 st.sidebar.markdown("Enter your own custom values to run the model")
 
-k1 = float(st.text_input('Anisotropy constant K_1 [J/m^3]', 1.5 * 9100))
+k1 = float(st.sidebar.text_input('Anisotropy constant K_1 [J/m^3]', 1.5 * 9100))
 je = float(st.text_input('Current density j_e [10^10 A/m^2]', 10))
 
 periSampl = 1000
