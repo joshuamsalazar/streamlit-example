@@ -211,7 +211,11 @@ if longitudinalSweep:
         paramters.hext = np.array([i,0,0])
         initm=[0,0,1]
         initm=np.array(initm)/np.linalg.norm(initm)
-        R1w,R2w, t,hx,hy,hz,mx,my,mz, Hs, nR2w, lR2w, fR2w = calc_w1andw2(m0_=initm,t0_=0,t1_=4/paramters.frequency,dt_=1/(periSampl * paramters.frequency), paramters_=paramters)
+        R1w,R2w, t,hx,hy,hz, mx,my,mz, Hs, nR2w, lR2w, fR2w = calc_w1andw2(m0_=initm,
+                                                                          t0_=0,
+                                                                          t1_=4/paramters.frequency,
+                                                                          dt_=1/(periSampl * paramters.frequency),
+                                                                          paramters_=paramters)
         #Storing each current-induced field and magnetization state for each ext field value
         timeEvol.append(t)
         Hx.append(hx)
@@ -295,9 +299,9 @@ def graph(x, y, xlab, ylab, pltlabel, plthead):
 
 def graphm(t, mx, my, mz, xlab, ylab, plthead):
    fig, ax = plt.subplots()
-   plt.plot(t, mx, label = r'$m_x$')
-   plt.plot(t, my, label = r'$m_y$')
-   plt.plot(t, mz, label = r'$m_z$')
+   plt.plot(t, mx, label = r'$x$')
+   plt.plot(t, my, label = r'$y$')
+   plt.plot(t, mz, label = r'$z$')
    ax.set(xlabel = xlab, ylabel = ylab)
    plt.title(plthead)
    plt.legend()
@@ -315,16 +319,10 @@ figahe = graph(fieldrangeT, aheList, r'$\mu_0 H_x$ (T)', r'$m_{z,+j_e}-m_{z,-j_e
 #    m_eq.append( [ Mx[i][-1], My[i][-1], Mz[i][-1] ] )
 
 figmag = graphm(fieldrangeT, m_eqx, m_eqy, m_eqz, r'$\mu_0 H_x$ (T)', r'$m_i$',  "Equilibrium direction of m") #index denotes field sweep step
-     #checking the 'equilibrium' magnetization directions
-    #plt.plot(fieldrangeT, Mx,'b',label='m_x')
-    #plt.plot(fieldrangeT, My,'g',label='m_y')
 ##plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
 ##plt.plot(fieldrangeT, fsignal2w, label = 'fft r2w')
-##plt.plot(fieldrangeT, Mz,'r', label='m_z')
 ##plt.plot(fieldrangeT, H,'r')
 ##ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
-
-
 
 st.pyplot(figv1w)
 st.pyplot(figv2w)
@@ -347,6 +345,12 @@ if st.checkbox("Show relaxation of magnetization", False):
                       "Evolution at " + str( round(selected_field*paramters.mu0, 3) ) + "[T]")
 
     st.pyplot(figtraj)
+    if st.checkbox("Show fields evolution", False):
+        figfields = graphm(timeEvol[s_index], Hx[s_index], Hy[s_index], Hz[s_index],
+                          "time [ns]", r'$m_i$',  
+                          "Current induced fields at H_ext:" + str( round(selected_field*paramters.mu0, 3) ) + "[T]")
+
+        st.pyplot(figfields)
 
 
 
