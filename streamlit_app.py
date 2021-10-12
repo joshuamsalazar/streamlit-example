@@ -26,7 +26,7 @@ st.image("https://journals.aps.org/prb/article/10.1103/PhysRevB.89.144425/figure
         caption = "*Fig. 1* Hall bar structure. Adapted from Phys. Rev. B 89, 144425 (2014)",
         width   = 400 )
 
-st.write('The LLG equation employed in the model is in explicit form and takes the Slonczewsky ($\eta_{\text{SOT}}$ and $\eta_{\text{FL}}$) spin-orbit-torque coefficients as input. It goes as follows:')
+st.write('The LLG equation employed in the model is in explicit form and takes the Slonczewsky ($\eta_\text{DL} $ and $\eta_\text{FL}$) spin-orbit-torque coefficients as input. It goes as follows:')
 st.latex(r''' \frac{\partial \vec{m}}{\partial t} =
    \frac{\gamma}{1+\alpha^2} (\vec{m} \times \vec{H}_{\text{eff}}) - 
    \frac{\gamma \alpha}{1+\alpha^2} \:(\vec{m} \times \vec{m} \times \vec{H}_{\text{eff}})''')
@@ -41,7 +41,13 @@ st.latex(r''' \vec{ H }_{\text{eff}} =
 ''')
 
 
-st.write(r"The $\vec{p}$ vector represents the spin polarization of electrons. For a current flowing along the x direction, the vetor is $(0,-1,0)$")
+st.write(r"The $\vec{p}$ vector represents the spin polarization of electrons. For a current flowing along the x direction, the vetor is $(0,-1,0)$. As the here simulated system presents out of plane magnetization along the +z axis, the $\vec{K}_1$ anisotropy constant is represented by $(0,0,K_1)$")
+
+st.caption("Performing the integration")
+
+st.write("In order to accurately compute the first and second harmonic components of the Anomalous Hall Voltage, the period is, at least, split in 1000 equidistand time steps. This will ensure an accurate description of the time variation of the voltage induced by the AC current. Additionaly, it will improve the computation of the numerical Fourier integrals for getting the harmonic responses.")
+st.write(r"As the system starts fully pointing in the z direction, it is better to simulate the electric current with a cosine wave $J_x=j_e \cos(\omega t)$. ")
+
 
 st.sidebar.markdown("## Parameters used in the simulation")
 st.sidebar.markdown("Enter your own custom values to run the model")
