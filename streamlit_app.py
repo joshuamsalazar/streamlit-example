@@ -10,11 +10,13 @@ from functools import partial
 import os, sys
 from bokeh.plotting import figure, show
 
-st.title('LLG integrator: Magnetization dynamics for FM/HM interfaces, a single-spin model')
-
+st.title('Magnetization dynamics for FM/HM interfaces, a single-spin model')
+st.header('Online LLG integrator')
 st.write("Joshua Salazar, Sabri Koraltan, Harald Özelt, Dieter Suess")
 st.write("Physics of Functional Materials")
 st.write("University of Vienna")
+
+st.write('The following page describes the details to consider to efficiently simulate a FM/HM interface. The model contains the computation of the first and second harmonics of the Anomalous Hall Voltage (from AH Effect)')
 
 st.sidebar.markdown("## Parameters used in the simulation" 
 	)
