@@ -29,11 +29,7 @@ st.latex(r''' \vec{ H }_{\text{eff}} =
 \vec{ H }^{\text{SOT}}_{\text{FL}} + 
 \vec{ H }^{\text{SOT}}_{\text{DL}}  
 = \frac{1}{1}''')
-st.markdown('
-$$   a &=b+c\\
-      &=e+f
-$$
-')
+st.markdown('$$   a &=b+c\\&=e+f$$')
 
 st.sidebar.markdown("## Parameters used in the simulation")
 st.sidebar.markdown("Enter your own custom values to run the model")
