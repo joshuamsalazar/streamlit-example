@@ -28,8 +28,9 @@ st.latex(r''' \vec{ H }_{\text{eff}} =
 \vec{ H }_{\text{ext}} + \vec{ H }_{\text{k}} + 
 \vec{ H }^{\text{SOT}}_{\text{FL}} + 
 \vec{ H }^{\text{SOT}}_{\text{DL}} \\
-= \vec{ H }_{\text{ext}} + \frac{2\vec{K}_1}{Js} +
-\frac{ \eta_{ \text{DL} } }{ 2 e t \mu_0 M_s }\:\vec{m} \times \vec{m} \times \vec{p}
+\vec{ H }_{\text{k}} = \frac{2\vec{K}_1}{Js}  \\
+\vec{ H }^{\text{SOT}}_{\text{FL}} = \text{FL} \frac{ \eta_{ j_e \hbar } }{ 2 e t \mu_0 M_s }\:\vec{m} \times \vec{m} \times \vec{p} \\
+\vec{ H }^{\text{SOT}}_{\text{DL}} = \text{DL} \frac{ \eta_{ j_e \hbar } }{ 2 e t \mu_0 M_s }\:\vec{m} \times \vec{p}
 ''')
 
 
