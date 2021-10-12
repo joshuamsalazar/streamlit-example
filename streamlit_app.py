@@ -27,11 +27,11 @@ st.write('Where $m$ represents the mgnetization unit vector, $\alpha$ the Gilber
 st.latex(r''' \vec{ H }_{\text{eff}} =
 \vec{ H }_{\text{ext}} + \vec{ H }_{\text{k}} + 
 \vec{ H }^{\text{SOT}}_{\text{FL}} + 
-\vec{ H }^{\text{SOT}}_{\text{DL}}  
-= \frac{1}{1}''')
-st.latex(r'''
-   a =b+c\\ =e+f 
+\vec{ H }^{\text{SOT}}_{\text{DL}} \\
+= \vec{ H }_{\text{ext}} + \frac{2\vec{K}_1}{Js} +
+\frac{ \eta_{ \text{DL} } }{ 2 e t \mu_0 M_s }\:\vec{m} \times \vec{m} \times \vec{p}
 ''')
+
 
 st.sidebar.markdown("## Parameters used in the simulation")
 st.sidebar.markdown("Enter your own custom values to run the model")
