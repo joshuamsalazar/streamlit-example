@@ -18,7 +18,8 @@ st.sidebar.markdown("## Parameters used in the simulation"
 st.sidebar.markdown("Enter your own custom values to run the model")
 
 k1 = float(st.sidebar.text_input('Anisotropy constant K_1 [J/m^3]', 1.5 * 9100))
-je = float(st.text_input('Current density j_e [10^10 A/m^2]', 10))
+je = float(st.sidebar.text_input('Current density j_e [10^10 A/m^2]', 10))
+js = float(st.sidebar.text_input('Saturation magnetization Js [T]', 0.65))
 
 periSampl = 1000
 
@@ -26,7 +27,7 @@ class Parameters:
     gamma = 2.2128e5
     alpha = 1.0
     K1 = k1   
-    Js = 0.46
+    Js = js
     RAHE = 0.65 
     d = (0.6+1.2+1.1) * 1e-9      
     frequency = 0.1e9
