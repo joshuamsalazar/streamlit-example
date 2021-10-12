@@ -305,7 +305,12 @@ figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w",
 figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', r'$m_x^2$','AMR effect')
 figahe = graph(fieldrangeT, aheList, r'$\mu_0 H_x$ (T)', r'$m_{z,+j_e}-m_{z,-j_e}$', r'$m_{z,+j_e}-m_{z,ij_e}$','AMR effect')
 
-figtraj0 = graphm(timeEvol[0], Mx[0], My[0], Mz[0], "time [ns]", r'$m_i$',  "Evolution at XXX") #index denotes field sweep step
+i = 0
+m_eq = []
+for elem in Mx:
+    m_eq.append( [ Mx[i][-1], My[i][-1], Mz[i][-1] ] )
+
+figmag = graphm(fieldrangeT, m_eq[:,0], m_eq[:,1], m_eq[:,2], r'$\mu_0 H_x$ (T)', r'$m_i$',  "Equilibrium direction of m") #index denotes field sweep step
      #checking the 'equilibrium' magnetization directions
     #plt.plot(fieldrangeT, Mx,'b',label='m_x')
     #plt.plot(fieldrangeT, My,'g',label='m_y')
@@ -321,6 +326,7 @@ st.pyplot(figv1w)
 st.pyplot(figv2w)
 st.pyplot(figamr)
 st.pyplot(figahe)
+st.pyplot(figmag)
 
 """
 Magnetization trajetories for each field value
