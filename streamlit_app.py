@@ -20,11 +20,12 @@ st.write('The following page describes the details to consider to efficiently si
 
 st.subheader('Theoretical description')
 st.write('The LLG equation epmloyeed in the model is in explicit form and takes the Slonczewsky spin-orbit-torque coefficients as input. It goes as follows:')
-st.latex(r''' \frac{\gamma}{1+\alpha^2} \vec{m} \times \vec{H}_{eff} - 
-   \gamma \alpha (1+\alpha^2) \:\vec{m} \times \vec{m} \times \vec{H}_{eff}''')
+st.latex(r''' \frac{\partial \vec{m}}{\partial t} =
+   \frac{\gamma}{1+\alpha^2} \vec{m} \times \vec{H}_{eff} - 
+   \frac{\gamma \alpha}{1+\alpha^2} \:\vec{m} \times \vec{m} \times \vec{H}_{eff}''')
+st.write('Where the $a$ ')
 
-st.sidebar.markdown("## Parameters used in the simulation" 
-	)
+st.sidebar.markdown("## Parameters used in the simulation")
 st.sidebar.markdown("Enter your own custom values to run the model")
 
 je = float(st.sidebar.text_input('Current density j_e [10^10 A/m^2]', 10))
