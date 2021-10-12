@@ -20,7 +20,8 @@ st.write('The following page describes the details to consider to efficiently si
 
 st.subheader('Theoretical description')
 st.write('The LLG equation epmloyeed in the model is in explicit form and takes the Slonczewsky spin-orbit-torque coefficients as input. It goes as follows:')
-st.latex(" \frac{\gamma}{1+\alpha**2} \vec{m} \cross \vec{H_{eff}} - \gamma \alpha ")
+st.latex(r''' \frac{\gamma}{1+\alpha**2} \vec{m} \cross \vec{H_{eff}} - 
+   \gamma \alpha ''')
 
 st.sidebar.markdown("## Parameters used in the simulation" 
 	)
