@@ -345,12 +345,13 @@ if st.checkbox("Show relaxation of magnetization", False):
                       "Evolution at " + str( round(selected_field*paramters.mu0, 3) ) + "[T]")
 
     st.pyplot(figtraj)
-    if st.checkbox("Show fields evolution", False):
-        figfields = graphm(timeEvol[s_index], Hx[s_index], Hy[s_index], Hz[s_index],
-                          "time [ns]", r'$m_i$',  
-                          "Current induced fields at H_ext:" + str( round(selected_field*paramters.mu0, 3) ) + "[T]")
-
-        st.pyplot(figfields)
+    #if st.checkbox("Show fields evolution", False):
+    #    figfields = graphm(timeEvol[s_index], Hx[s_index], Hy[s_index], Hz[s_index],
+    #                      "time [ns]", r'$m_i$',  
+    #                      "Current induced fields at H_ext:" + str( round(selected_field*paramters.mu0, 3) ) + "[T]")
+    #
+    #    st.pyplot(figfields)
+        
 
 
 
