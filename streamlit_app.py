@@ -194,7 +194,7 @@ fsignal2w = []
 timeEvol = []
 Hx,Hy,Hz = [[],[],[]]
 Mx,My,Mz = [[],[],[]]
-gmrList, amrList = [[],[]]
+aheList, amrList = [[],[]]
 fieldrangeT =[]
 phirangeRad=[]
 orgdensity = paramters.currentd
@@ -320,6 +320,7 @@ figtraj0 = graphm(timeEvol[0], Mx[0], My[0], Mz[0], "time [ns]", r'$m_i$',  "Evo
 st.pyplot(figv1w)
 st.pyplot(figv2w)
 st.pyplot(figamr)
+st.pyplot(figahe)
 
 """
 Magnetization trajetories for each field value
