@@ -20,15 +20,17 @@ st.sidebar.markdown("Enter your own custom values to run the model")
 k1 = float(st.sidebar.text_input('Anisotropy constant K_1 [J/m^3]', 1.5 * 9100))
 je = float(st.sidebar.text_input('Current density j_e [10^10 A/m^2]', 10))
 js = float(st.sidebar.text_input('Saturation magnetization Js [T]', 0.65))
+a = float(st.sidebar.text_input('Gilbert damping constant'), 1)
+
 
 periSampl = 1000
 
 class Parameters:
     gamma = 2.2128e5
-    alpha = 1.0
+    alpha = a
     K1 = k1   
     Js = js
-    RAHE = 0.65 
+    RAHE = float(st.sidebar.text_input('Anomalous Hall effect coefficient'), 0.65) 
     d = (0.6+1.2+1.1) * 1e-9      
     frequency = 0.1e9
     currentd = je * 1e10
