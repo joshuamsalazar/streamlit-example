@@ -16,7 +16,11 @@ st.caption("Joshua Salazar, Sabri Koraltan, Harald Özelt, Dieter Suess")
 st.caption("Physics of Functional Materials")
 st.caption("University of Vienna")
 
-st.write('The following page describes the details to consider to efficiently simulate a FM/HM interface. This model is based on the Landau-Lifshitz-Gilbert equation, and the equation is integrated using _scipy_ python libraries. The magnetization dynamics is computed and contains also routines to calculate the first and second harmonics of the Anomalous Hall Voltage (from AH Effect). This interactve tool is designed to allow quick computations and detailed understanding of the considerations made to simulate such FM/HM interfaces. ')
+st.write('The following page describes the details to consider to efficiently simulate a FM/HM interface. This model is based on the Landau-Lifshitz-Gilbert equation, and the equation is integrated using _scipy_ python libraries. Hence, the magnetization dynamics is computed  with this model, which also contains routines to calculate the first and second harmonics of the Anomalous Hall Voltage (from AH Effect). This interactve tool is designed to allow quick computations and detailed understanding of the considerations made to simulate such FM/HM interfaces. ')
+
+st.subheader('Theoretical description')
+st.write('The LLG equation epmloyeed in the model is in explicit form and takes the Slonczewsky spin-orbit-torque coefficients as input. It goes as follows:')
+st.latex(' \frac{\gamma}{1+\alpha**2} \vec{m} \cross \vec{H_{eff}} - \gamma \alpha ')
 
 st.sidebar.markdown("## Parameters used in the simulation" 
 	)
