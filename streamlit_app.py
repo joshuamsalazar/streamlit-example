@@ -10,8 +10,11 @@ from functools import partial
 import os, sys
 from bokeh.plotting import figure, show
 
-st.title('LLG integrator: Single-spin model')
-st.write("University of Vienna \n Physics of Functional Materials")
+st.title('LLG integrator: Magnetization dynamics for FM/HM interfaces, a single-spin model')
+
+st.write("Joshua Salazar, Sabri Koraltan, Harald Özelt, Dieter Suess")
+st.write("Physics of Functional Materials")
+st.write("University of Vienna")
 
 st.sidebar.markdown("## Parameters used in the simulation" 
 	)
