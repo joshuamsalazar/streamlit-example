@@ -12,11 +12,11 @@ from bokeh.plotting import figure, show
 
 st.title('Magnetization dynamics for FM/HM interfaces, a single-spin model')
 st.header('Online LLG integrator')
-st.write("Joshua Salazar, Sabri Koraltan, Harald Özelt, Dieter Suess")
-st.write("Physics of Functional Materials")
+st.caption("Joshua Salazar, Sabri Koraltan, Harald Özelt, Dieter Suess")
+st.caption("Physics of Functional Materials")
 st.caption("University of Vienna")
 
-st.write('The following page describes the details to consider to efficiently simulate a FM/HM interface. The model contains the computation of the first and second harmonics of the Anomalous Hall Voltage (from AH Effect)')
+st.write('The following page describes the details to consider to efficiently simulate a FM/HM interface. This model is based on the Landau-Lifshitz-Gilbert equation, and the equation is integrated using _scipy_ python libraries. The magnetization dynamics is computed and contains also routines to calculate the first and second harmonics of the Anomalous Hall Voltage (from AH Effect). This interactve tool is designed to allow quick computations and detailed understanding of the considerations made to simulate such FM/HM interfaces. ')
 
 st.sidebar.markdown("## Parameters used in the simulation" 
 	)
