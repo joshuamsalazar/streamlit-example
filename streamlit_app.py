@@ -17,31 +17,27 @@ st.sidebar.markdown("## Parameters used in the simulation"
 	)
 st.sidebar.markdown("Enter your own custom values to run the model")
 
-k1 = float(st.sidebar.text_input('Anisotropy constant K_1 [J/m^3]', 1.5 * 9100))
 je = float(st.sidebar.text_input('Current density j_e [10^10 A/m^2]', 10))
-js = float(st.sidebar.text_input('Saturation magnetization Js [T]', 0.65))
-a = float(st.sidebar.text_input('Gilbert damping constant', 1))
 
-
-periSampl = 1000
+periSampl = 1000 #
 
 class Parameters:
     gamma = 2.2128e5
-    alpha = a
-    K1 = k1   
-    Js = js
-    RAHE = float(st.sidebar.text_input('Anomalous Hall effect coefficient', 0.65)) 
-    d = (0.6+1.2+1.1) * 1e-9      
-    frequency = 0.1e9
-    currentd = je * 1e10
+    alpha      = float(st.sidebar.text_input('Gilbert damping constant', 1))
+    K1         = float(st.sidebar.text_input('Anisotropy constant K_1 [J/m^3]', 1.5 * 9100))   
+    Js         = float(st.sidebar.text_input('Saturation magnetization Js [T]', 0.65))
+    RAHE       = float(st.sidebar.text_input('Anomalous Hall effect coefficient', 0.65)) 
+    d          = float(st.sidebar.text_input('FM layer thickness [nm]', (0.6+1.2+1.1) * 1e-9))       
+    frequency  = float(st.sidebar.text_input('AC frequency [Hz]', 0.1e9)) 
+    currentd   = je * 1e10
     hbar = 1.054571e-34
     e = 1.602176634e-19
     mu0 = 4 * 3.1415927 * 1e-7
     easy_axis = np.array([0,0,1])
     p_axis = np.array([0,-1,0])
-    etadamp = 0.084    
-    etafield = 0.008   # etafield/etadamp=eta
-    eta = etafield/etadamp
+    etadamp    = float(st.sidebar.text_input('Damping like torque term coefficient', 0.084))    
+    etafield   = float(st.sidebar.text_input('Field like torque term', 0.008))               # etafield/etadamp=eta
+    eta        = etafield/etadamp
     hext = np.array([1.0 * K1/Js,0,0])
     
 def lockin(sig, t, f, ph):
