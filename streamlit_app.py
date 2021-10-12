@@ -19,11 +19,15 @@ st.caption("University of Vienna")
 st.write('The following page describes the details to consider to efficiently simulate a FM/HM interface. This model is based on the Landau-Lifshitz-Gilbert equation, and the equation is integrated using _scipy_ python libraries. Hence, the magnetization dynamics is computed  with this model, which also contains routines to calculate the first and second harmonics of the Anomalous Hall Voltage (from AH Effect). This interactve tool is designed to allow quick computations and detailed understanding of the considerations made to simulate such FM/HM interfaces. ')
 
 st.subheader('Theoretical description')
-st.write('The LLG equation epmloyeed in the model is in explicit form and takes the Slonczewsky spin-orbit-torque coefficients as input. It goes as follows:')
+
+st.write('The system described by the model is a typical FM/HM interface. In our specific case, a Hall cross with a thin ferromagnetic layer displaying an out of plane magnetization (fig. 1).  ')
+st.image("https://journals.aps.org/prb/article/10.1103/PhysRevB.89.144425/figures/1/medium")
+
+st.write('The LLG equation employed in the model is in explicit form and takes the Slonczewsky ($\eta_{\text{SOT}}$ and $\eta_{\text{FL}}$) spin-orbit-torque coefficients as input. It goes as follows:')
 st.latex(r''' \frac{\partial \vec{m}}{\partial t} =
    \frac{\gamma}{1+\alpha^2} (\vec{m} \times \vec{H}_{\text{eff}}) - 
    \frac{\gamma \alpha}{1+\alpha^2} \:(\vec{m} \times \vec{m} \times \vec{H}_{\text{eff}})''')
-st.write(r'Where $m$ represents the mgnetization unit vector, $\alpha$ the Gilbert damping constant, $\gamma$ the gyromagnetic ratio, and $\vec{H}_{eff}$ is the effective magnetic field. The effective magnetic field contains contributions of the applied external field, the effective anisotropy field, and the current induced fields via spin orbit torque effects. It reads as follows:')
+st.write(r'Where $m$ represents the mgnetization unit vector, $\alpha$ the Gilbert damping constant, $\gamma$ the gyromagnetic ratio, and $\vec{H}_{\text{eff}}$ is the effective magnetic field. The effective magnetic field contains contributions of the applied external field, the effective anisotropy field, and the current induced fields via spin orbit torque effects. It reads as follows:')
 st.latex(r''' \vec{ H }_{\text{eff}} =
 \vec{ H }_{\text{ext}} + \vec{ H }_{\text{k}} + 
 \vec{ H }^{\text{SOT}}_{\text{FL}} + 
@@ -32,6 +36,7 @@ st.latex(r''' \vec{ H }_{\text{eff}} =
 \vec{ H }^{\text{SOT}}_{\text{FL}} = \eta_\text{FL} \frac{  j_e \hbar  }{ 2 e t \mu_0 M_s }\:(\vec{m} \times \vec{m} \times \vec{p}) \\ \:\\
 \vec{ H }^{\text{SOT}}_{\text{DL}} = \eta_\text{DL} \frac{  j_e \hbar  }{ 2 e t \mu_0 M_s }\:(\vec{m} \times \vec{p})
 ''')
+
 
 st.write(r"The $\vec{p}$ vector represents the spin polarization of electrons. For a current flowing along the x direction, the vetor is $(0,-1,0)$")
 
