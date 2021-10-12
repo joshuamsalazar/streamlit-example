@@ -194,6 +194,7 @@ fsignal2w = []
 timeEvol = []
 Hx,Hy,Hz = [[],[],[]]
 Mx,My,Mz = [[],[],[]]
+m_eqx, m_eqy, m_eqz = [[],[],[]]
 aheList, amrList = [[],[]]
 fieldrangeT =[]
 phirangeRad=[]
@@ -219,6 +220,9 @@ if longitudinalSweep:
         Mx.append(mx)
         My.append(my)
         Mz.append(mz)
+        m_eqx.append(mx[-1])
+        m_eqy.append(my[-1])
+        m_eqz.append(mz[-1])
         fieldrangeT.append(i * paramters.mu0)
         signalw.append(R1w)
         signal2w.append(R2w)
@@ -305,12 +309,12 @@ figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w",
 figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', r'$m_x^2$','AMR effect')
 figahe = graph(fieldrangeT, aheList, r'$\mu_0 H_x$ (T)', r'$m_{z,+j_e}-m_{z,-j_e}$', r'$m_{z,+j_e}-m_{z,ij_e}$','AMR effect')
 
-i = 0
-m_eq = []
-for elem in Mx:
-    m_eq.append( [ Mx[i][-1], My[i][-1], Mz[i][-1] ] )
+#i = 0
+#m_eq = []
+#for elem in Mx:
+#    m_eq.append( [ Mx[i][-1], My[i][-1], Mz[i][-1] ] )
 
-figmag = graphm(fieldrangeT, m_eq[:,0], m_eq[:,1], m_eq[:,2], r'$\mu_0 H_x$ (T)', r'$m_i$',  "Equilibrium direction of m") #index denotes field sweep step
+figmag = graphm(fieldrangeT, m_eqx, m_eqy, m_eqz, r'$\mu_0 H_x$ (T)', r'$m_i$',  "Equilibrium direction of m") #index denotes field sweep step
      #checking the 'equilibrium' magnetization directions
     #plt.plot(fieldrangeT, Mx,'b',label='m_x')
     #plt.plot(fieldrangeT, My,'g',label='m_y')
