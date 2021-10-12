@@ -21,10 +21,10 @@ st.write('The following page describes the details to consider to efficiently si
 st.subheader('Theoretical description')
 st.write('The LLG equation epmloyeed in the model is in explicit form and takes the Slonczewsky spin-orbit-torque coefficients as input. It goes as follows:')
 st.latex(r''' \frac{\partial \vec{m}}{\partial t} =
-   \frac{\gamma}{1+\alpha^2} \vec{m} \times \vec{H}_{eff} - 
-   \frac{\gamma \alpha}{1+\alpha^2} \:\vec{m} \times \vec{m} \times \vec{H}_{eff}''')
+   \frac{\gamma}{1+\alpha^2} \vec{m} \times \vec{H}_{\text{eff}} - 
+   \frac{\gamma \alpha}{1+\alpha^2} \:\vec{m} \times \vec{m} \times \vec{H}_{\text{eff}}''')
 st.write('Where $m$ represents the mgnetization unit vector, $\alpha$ the Gilbert damping constant, $\gamma$ the gyromagnetic ratio, and $\vec{H}_{eff}$ is the effective magnetic field. The effective magnetic field contains contributions of the applied external field, the effective anisotropy field, and the current induced fields via spin orbit torque effects. It reads as follows:')
-st.latex(r''' \boldmath{ H^{\text{eff}} }=\boldmath{ H^{\text{ext}} } + \boldmath{ H^{\text{k}} } + \boldmath{ H^{\text{SOT}}_{\text{FL}} + H^{\text{SOT}}_{\text{DL}} } ''')
+st.latex(r''' \vec{ H }_{\text{eff}} =\vec{ H }_{\text{ext}} + \vec{ H }_{\text{k}} + \vec{ H }^{\text{SOT}}_{\text{FL}} + \vec{ H }^{\text{SOT}}_{\text{DL}}  ''')
 
 st.sidebar.markdown("## Parameters used in the simulation")
 st.sidebar.markdown("Enter your own custom values to run the model")
