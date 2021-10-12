@@ -23,7 +23,8 @@ st.write('The LLG equation epmloyeed in the model is in explicit form and takes 
 st.latex(r''' \frac{\partial \vec{m}}{\partial t} =
    \frac{\gamma}{1+\alpha^2} \vec{m} \times \vec{H}_{eff} - 
    \frac{\gamma \alpha}{1+\alpha^2} \:\vec{m} \times \vec{m} \times \vec{H}_{eff}''')
-st.write('Where the $a$ ')
+st.write('Where $m$ represents the mgnetization unit vector, $\alpha$ the Gilbert damping constant, $\gamma$ the gyromagnetic ratio, and $\vec{H}_{eff}$ is the effective magnetic field. The effective magnetic field contains contributions of the applied external field, the effective anisotropy field, and the current induced fields via spin orbit torque effects. It reads as follows:')
+st.latex(r''' \boldmath{ H^{\text{eff}} }=\boldmath{ H^{\text{ext}} } + \boldmath{ H^{\text{k}} } + \boldmath{ H^{\text{SOT}}_{\text{FL}} + H^{\text{SOT}}_{\text{DL}} } ''')
 
 st.sidebar.markdown("## Parameters used in the simulation")
 st.sidebar.markdown("Enter your own custom values to run the model")
