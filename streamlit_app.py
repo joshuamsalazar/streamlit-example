@@ -30,7 +30,7 @@ st.latex(r''' \vec{ H }_{\text{eff}} =
 \vec{ H }^{\text{SOT}}_{\text{DL}}  
 = \frac{1}{1}''')
 st.latex(r'''
-$$\begin{split}   a &=b+c\\ &=e+f \end{split} $$
+$$   a &=b+c\\ &=e+f  $$
 ''')
 
 st.sidebar.markdown("## Parameters used in the simulation")
