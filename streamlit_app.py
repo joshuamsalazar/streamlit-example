@@ -29,7 +29,7 @@ st.latex(r''' \vec{ H }_{\text{eff}} =
 \vec{ H }^{\text{SOT}}_{\text{FL}} + 
 \vec{ H }^{\text{SOT}}_{\text{DL}}  
 = \frac{1}{1}''')
-st.latex(r'''
+st.markdown(r'''
 $$   a &=b+c\\
       &=e+f
 $$
