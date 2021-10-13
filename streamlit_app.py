@@ -323,35 +323,6 @@ figmag = graphm(fieldrangeT, m_eqx, m_eqy, m_eqz, r'$\mu_0 H_x$ (T)', r'$m_i$', 
 ##plt.plot(fieldrangeT, H,'r')
 ##ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
 
-st.pyplot(figv1w)
-st.pyplot(figv2w)
-st.pyplot(figamr)
-st.pyplot(figahe)
-st.pyplot(figmag)
-
-"""
-Magnetization trajetories for each field value
-"""
-if st.checkbox("Show relaxation of magnetization", True):
-    selected_field = st.select_slider('Check the trajectories for a field value [A/m]',
-                    options = fieldrange.tolist())
-    st.write("Field value equivalent to", str( round(selected_field*paramters.mu0, 3) ), "[T]")
-
-    s_index = fieldrange.tolist().index(selected_field)
-
-    figtraj = graphm(timeEvol[s_index], Mx[s_index], My[s_index], Mz[s_index],
-                      "time [ns]", r'$m_i$',  
-                      "Evolution at " + str( round(selected_field*paramters.mu0, 3) ) + "[T]")
-
-    st.pyplot(figtraj)
-    #if st.checkbox("Show fields evolution", False):
-    #    figfields = graphm(timeEvol[s_index], Hx[s_index], Hy[s_index], Hz[s_index],
-    #                      "time [ns]", r'$m_i$',  
-    #                      "Current induced fields at H_ext:" + str( round(selected_field*paramters.mu0, 3) ) + "[T]")
-    #
-    #    st.pyplot(figfields)
-        
-
 st.title('Magnetization dynamics for FM/HM interfaces, a single-spin model')
 st.header('Online LLG integrator')
 st.caption("Joshua Salazar, Sabri Koraltan, Harald Özelt, Dieter Suess")
@@ -408,6 +379,24 @@ if st.checkbox("Show relaxation of magnetization", True):
     st.pyplot(figtraj)
 
 st.write("As can be noted in the magnetization dynamics for a given external field value, the system quickly gets its magnetization direction according to the applied AC current. However, if we employ just a single period to compute the Fourier series integral the result may differ from the actual coefficient, as the first time steps do not have a wave like behavior. Therefore, in order to compute the integral...")
+
+
+
+
+st.pyplot(figv1w)
+st.pyplot(figv2w)
+st.pyplot(figamr)
+st.pyplot(figahe)
+st.pyplot(figmag)
+
+
+    #if st.checkbox("Show fields evolution", False):
+    #    figfields = graphm(timeEvol[s_index], Hx[s_index], Hy[s_index], Hz[s_index],
+    #                      "time [ns]", r'$m_i$',  
+    #                      "Current induced fields at H_ext:" + str( round(selected_field*paramters.mu0, 3) ) + "[T]")
+    #
+    #    st.pyplot(figfields)
+        
 
 
 
