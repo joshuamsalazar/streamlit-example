@@ -368,7 +368,7 @@ st.write(r"As can be noted in the magnetization dynamics for a given external fi
 st.write(r"Therefore, in order to accurately compute the integral, each time integration of the LLG equation, for each $H_{\text{ext,x}}$ value, is performed over 4 complete periods $t_f=4/f$. Then, for computing the Fourier integral, the initial period of the time integration of the LLG equation is ommited from the computation. Furthermore, to improve the accuracy of the calculated harmonic component of the voltage, the remaining three periods are integrated and the normalization factor of the Fourier integral is adjusted accordingly. Finally, the integral is numerically approximated by the following sum:")
 st.latex(r''' 
 V^{xy}_{ \omega} \approx \frac{2}{t_f(3/4)} \\
-V^{xy}_{2\omega} \approx \frac{2}{t_f(3/4)} (J_x_i m_z_i R_{AHE}) \cos(2\omega t_i) (\Delta t)_i
+V^{xy}_{2\omega} \approx \frac{2}{t_f(3/4)} ({J_x}_i {m_z}_i R_{ \text{AHE} }) \cos(2\omega t_i) (\Delta t)_i
 ''')
 st.write(r'Where $i$ represents an index of the elements of the lists containing the values of each step of the simulation (_Note that one period has been split into 1000 equidistant steps_). Inside the simulation the voltage is computed as $V^{xy}(t)=J_x(t) m_z(t) R_{AHE} \sigma$, where $\sigma$ is the cross section area of the conducting element. In our case $\sigma=(2 \mu m \times 6 \text{nm})$ ')
 
