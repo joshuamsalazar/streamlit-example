@@ -26,7 +26,7 @@ st.image("https://journals.aps.org/prb/article/10.1103/PhysRevB.89.144425/figure
         caption = "*Fig. 1* Hall bar structure. Adapted from Phys. Rev. B 89, 144425 (2014)",
         width   = 400 )
 
-st.write('The LLG equation employed in the model is in explicit form and takes the Slonczewsky ($\eta_\text{DL} $ and $\eta_\text{FL}$) spin-orbit-torque coefficients as input. It goes as follows:')
+st.write(r'The LLG equation employed in the model is in explicit form and takes the Slonczewsky ($\eta_\text{DL} $ and $\eta_\text{FL}$) spin-orbit-torque coefficients as input. It goes as follows:')
 st.latex(r''' \frac{\partial \vec{m}}{\partial t} =
    \frac{\gamma}{1+\alpha^2} (\vec{m} \times \vec{H}_{\text{eff}}) - 
    \frac{\gamma \alpha}{1+\alpha^2} \:(\vec{m} \times \vec{m} \times \vec{H}_{\text{eff}})''')
@@ -46,8 +46,26 @@ st.write(r"The $\vec{p}$ vector represents the spin polarization of electrons. F
 st.caption("Performing the integration")
 
 st.write("In order to accurately compute the first and second harmonic components of the Anomalous Hall Voltage, the period is, at least, split in 1000 equidistand time steps. This will ensure an accurate description of the time variation of the voltage induced by the AC current. Additionaly, it will improve the computation of the numerical Fourier integrals for getting the harmonic responses.")
+st.write("Under AC, the voltage is made up by the following harmonics:")
+st.latex(r''' V_{xy}(t) = V^{xy}_0 + V^{xy}_\omega\sin(\omega t) + V^{xy}_{2\omega}\cos(2\omega t) + ...''')
+st.write("Those harmonic components can be isolated by applying the Fourier series coefficient integral definition")
+st.latex(r''' V^{xy}_{2\omega}=\frac{2}{T}\int_{T} V(t)\cos(2\omega t)\text{dt} ''')
 st.write(r"As the system starts fully pointing in the z direction, it is better to simulate the electric current with a cosine wave $J_x=j_e \cos(\omega t)$. ")
 
+if st.checkbox("Show relaxation of magnetization", True):
+    selected_field = st.select_slider('Check the trajectories for a field value [A/m]',
+                    options = fieldrange.tolist())
+    st.write("Field value equivalent to", str( round(selected_field*paramters.mu0, 3) ), "[T]")
+
+    s_index = fieldrange.tolist().index(selected_field)
+
+    figtraj = graphm(timeEvol[s_index], Mx[s_index], My[s_index], Mz[s_index],
+                      "time [ns]", r'$m_i$',  
+                      "Evolution at " + str( round(selected_field*paramters.mu0, 3) ) + "[T]")
+
+    st.pyplot(figtraj)
+
+st.write("As can be noted in the magnetization dynamics for a given external field value, the system quickly gets its magnetization direction according to the applied AC current. However, if we employ just a single period to compute the Fourier series integral the result may differ from the actual coefficient, as the first time steps do not have a wave like behavior. Therefore, in order to compute the integral...")
 
 st.sidebar.markdown("## Parameters used in the simulation")
 st.sidebar.markdown("Enter your own custom values to run the model")
@@ -371,7 +389,7 @@ st.pyplot(figmag)
 """
 Magnetization trajetories for each field value
 """
-if st.checkbox("Show relaxation of magnetization", False):
+if st.checkbox("Show relaxation of magnetization", True):
     selected_field = st.select_slider('Check the trajectories for a field value [A/m]',
                     options = fieldrange.tolist())
     st.write("Field value equivalent to", str( round(selected_field*paramters.mu0, 3) ), "[T]")
