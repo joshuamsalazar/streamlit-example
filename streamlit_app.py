@@ -321,8 +321,8 @@ st.write('The system described by the model is a typical FM/HM interface. In our
 st.image("https://journals.aps.org/prb/article/10.1103/PhysRevB.89.144425/figures/1/medium",
         caption = "*Fig. 1* Hall bar structure. Adapted from Phys. Rev. B 89, 144425 (2014)",
         width   = 400 )
-
-st.write(r'The LLG equation employed in the model is in explicit form and takes the Slonczewsky ($\eta_\text{DL} $ and $\eta_\text{FL}$) spin-orbit-torque coefficients as input. It goes as follows:')
+#($\eta_\text{DL}$ and $\eta_\text{FL}$)
+st.write(r'The LLG equation employed in the model is in explicit form and takes the Slonczewsky spin-orbit-torque coefficients as input. It goes as follows:')
 st.latex(r''' \frac{\partial \vec{m}}{\partial t} =
    \frac{\gamma}{1+\alpha^2} (\vec{m} \times \vec{H}_{\text{eff}}) - 
    \frac{\gamma \alpha}{1+\alpha^2} \:(\vec{m} \times \vec{m} \times \vec{H}_{\text{eff}})''')
@@ -346,7 +346,7 @@ st.write("Under AC, the voltage is made up by the following harmonics:")
 st.latex(r''' V_{xy}(t) = V^{xy}_0 + V^{xy}_\omega\sin(\omega t) + V^{xy}_{2\omega}\cos(2\omega t) + ...''')
 st.write("Those harmonic components can be isolated by applying the Fourier series coefficient integral definition, integrating over one full period.")
 st.latex(r''' 
-   V^{xy}_{\omega}=\frac{2}{T}\int_{T} V(t)\sin(\omega t)\text{dt} \\
+   V^{xy}_{\omega}=\frac{2}{T}\int_{T} V(t)\sin(\omega t)\text{dt} \\ \: \\
    V^{xy}_{2\omega}=\frac{2}{T}\int_{T} V(t)\cos(2\omega t)\text{dt} 
    ''')
 st.write(r"As the system starts fully pointing in the z direction, it is important to simulate the electric current with a cosine wave $J_x=j_e \cos(\omega t)$. ")
@@ -365,15 +365,20 @@ if st.checkbox("_Show relaxation of magnetization_", True):
     st.pyplot(figtraj)
 
 st.write(r"As can be noted in the magnetization dynamics for a given external field value, the system quickly gets its magnetization direction according to the applied AC current. However, if we just employ a single period for the time integration, the result of the Fourier integral may differ from the actual coefficient, as the first time steps do not have a pure wave behavior.") 
+
+st.caption("Computing the harmonics")
+
 st.write(r"Therefore, in order to accurately compute the integral, each time integration of the LLG equation, for each $H_{\text{ext,x}}$ value, is performed over 4 complete periods $t_f=4/f$. Then, for computing the Fourier integral, the initial period of the time integration of the LLG equation is ommited from the computation. Furthermore, to improve the accuracy of the calculated harmonic component of the voltage, the remaining three periods are integrated and the normalization factor of the Fourier integral is adjusted accordingly. Finally, the integral is numerically approximated by the following sum:")
 st.latex(r''' 
-V^{xy}_{ \omega} \approx \frac{2}{t_f(3/4)} \sum^{4000}_{i=1000} ({J_x}_i {m_z}_i R_{ \text{AHE} }) \sin(\omega t_i) (\Delta t)_i \\
+V^{xy}_{ \omega} \approx \frac{2}{t_f(3/4)} \sum^{4000}_{i=1000} ({J_x}_i {m_z}_i R_{ \text{AHE} }) \sin(\omega t_i) (\Delta t)_i \\ \: \\
 V^{xy}_{2\omega} \approx \frac{2}{t_f(3/4)} \sum^{4000}_{i=1000} ({J_x}_i {m_z}_i R_{ \text{AHE} }) \cos(2\omega t_i) (\Delta t)_i
 ''')
 st.write(r'Where $i$ represents an index of the elements of the lists containing the values of each step of the simulation (_Note that one period has been split into 1000 equidistant steps_). Inside the simulation the voltage is computed as $V^{xy}(t)=J_x(t) m_z(t) R_{AHE} \sigma$, where $\sigma$ is the cross section area of the conducting element. In our case $\sigma=(2 \mu m \times 6 \text{nm})$ ')
 
-figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
-figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
+st.write("Lastly, the resulting transfer curves using the Fourier series integral definition are: ")
+
+figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "First harmonic voltage" )
+figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w", "Second harmonic voltage" )
 
 figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', r'$m_x^2$','AMR effect')
 figahe = graph(fieldrangeT, aheList, r'$\mu_0 H_x$ (T)', r'$m_{z,+j_e}-m_{z,-j_e}$', r'$m_{z,+j_e}-m_{z,ij_e}$','AMR effect')
@@ -386,8 +391,15 @@ figmag = graphm(fieldrangeT, m_eqx, m_eqy, m_eqz, r'$\mu_0 H_x$ (T)', r'$m_i$', 
 
 st.pyplot(figv1w)
 st.pyplot(figv2w)
-st.pyplot(figamr)
+
+
+st.write('If we just take in consideration the magnetization components to describe the AMR and AHE effects, the transfer curves are:')
+
 st.pyplot(figahe)
+st.pyplot(figamr)
+
+st.write("It is important to highligh that by inducing an AC there is no an exact static point for equilibrium magnetization. However, when the system reaches equilibrium with respect to the AC current, the magnetization direction of the last time step of each period may be regarded as equilibrium magnetization (check ref. [X] Phys. Rev. B 89, 144425 (2014))")
+
 st.pyplot(figmag)
 
 #Pending code sections
