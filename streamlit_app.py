@@ -306,23 +306,6 @@ def graphm(t, mx, my, mz, xlab, ylab, plthead):
    plt.legend()
    return fig
 
-figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
-figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
-
-figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', r'$m_x^2$','AMR effect')
-figahe = graph(fieldrangeT, aheList, r'$\mu_0 H_x$ (T)', r'$m_{z,+j_e}-m_{z,-j_e}$', r'$m_{z,+j_e}-m_{z,ij_e}$','AMR effect')
-
-#i = 0
-#m_eq = []
-#for elem in Mx:
-#    m_eq.append( [ Mx[i][-1], My[i][-1], Mz[i][-1] ] )
-
-figmag = graphm(fieldrangeT, m_eqx, m_eqy, m_eqz, r'$\mu_0 H_x$ (T)', r'$m_i$',  "Equilibrium direction of m") #index denotes field sweep step
-##plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
-##plt.plot(fieldrangeT, fsignal2w, label = 'fft r2w')
-##plt.plot(fieldrangeT, H,'r')
-##ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
-
 st.title('Magnetization dynamics for FM/HM interfaces, a single-spin model')
 st.header('Online LLG integrator')
 st.caption("Joshua Salazar, Sabri Koraltan, Harald Özelt, Dieter Suess")
@@ -361,14 +344,17 @@ st.caption("Performing the integration")
 st.write("In order to accurately compute the first and second harmonic components of the Anomalous Hall Voltage, the period is, at least, split in 1000 equidistand time steps. This will ensure an accurate description of the time variation of the voltage induced by the AC current. Additionaly, it will improve the computation of the numerical Fourier integrals for getting the harmonic responses.")
 st.write("Under AC, the voltage is made up by the following harmonics:")
 st.latex(r''' V_{xy}(t) = V^{xy}_0 + V^{xy}_\omega\sin(\omega t) + V^{xy}_{2\omega}\cos(2\omega t) + ...''')
-st.write("Those harmonic components can be isolated by applying the Fourier series coefficient integral definition")
-st.latex(r''' V^{xy}_{2\omega}=\frac{2}{T}\int_{T} V(t)\cos(2\omega t)\text{dt} ''')
-st.write(r"As the system starts fully pointing in the z direction, it is better to simulate the electric current with a cosine wave $J_x=j_e \cos(\omega t)$. ")
+st.write("Those harmonic components can be isolated by applying the Fourier series coefficient integral definition, integrating over one full period.")
+st.latex(r''' 
+   V^{xy}_{\omega}=\frac{2}{T}\int_{T} V(t)\sin(\omega t)\text{dt}
+   V^{xy}_{2\omega}=\frac{2}{T}\int_{T} V(t)\cos(2\omega t)\text{dt} 
+   ''')
+st.write(r"As the system starts fully pointing in the z direction, it is important to simulate the electric current with a cosine wave $J_x=j_e \cos(\omega t)$. ")
 
-if st.checkbox("Show relaxation of magnetization", True):
-    selected_field = st.select_slider('Check the trajectories for a field value [A/m]',
+if st.checkbox("_Show relaxation of magnetization_", True):
+    selected_field = st.select_slider('_Check the trajectories for an specific field value [A/m]_',
                     options = fieldrange.tolist())
-    st.write("Field value equivalent to", str( round(selected_field*paramters.mu0, 3) ), "[T]")
+    st.write("_Field value equivalent to_", str( round(selected_field*paramters.mu0, 3) ), "[T]")
 
     s_index = fieldrange.tolist().index(selected_field)
 
@@ -378,10 +364,21 @@ if st.checkbox("Show relaxation of magnetization", True):
 
     st.pyplot(figtraj)
 
-st.write("As can be noted in the magnetization dynamics for a given external field value, the system quickly gets its magnetization direction according to the applied AC current. However, if we employ just a single period to compute the Fourier series integral the result may differ from the actual coefficient, as the first time steps do not have a wave like behavior. Therefore, in order to compute the integral...")
+st.write(r"As can be noted in the magnetization dynamics for a given external field value, the system quickly gets its magnetization direction according to the applied AC current. However, if we employ just a single period to compute the Fourier series integral the result may differ from the actual coefficient, as the first time steps do not have a pure wave behavior. Therefore, in order to accurately compute the integral, each time integration of the LLG equation for each field value is performed over 4 complete periods $t_f=4/f$. Then, for computing the Fourier integral, the initial period of the time integration of the LLG equation is ommited from the computation. Furthermore, to improve the accuracy of the calculated harmonic component of the voltage, the remaining three periods are integrated and the normalization factor of the Fourier integral is adjusted accordingly. Then, the integral is numerically approximated by the following sum:")
 
 
 
+figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
+figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w", "Current density " + str(je) + "e10 [A/m2]" )
+
+figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', r'$m_x^2$','AMR effect')
+figahe = graph(fieldrangeT, aheList, r'$\mu_0 H_x$ (T)', r'$m_{z,+j_e}-m_{z,-j_e}$', r'$m_{z,+j_e}-m_{z,ij_e}$','AMR effect')
+
+figmag = graphm(fieldrangeT, m_eqx, m_eqy, m_eqz, r'$\mu_0 H_x$ (T)', r'$m_i$',  "Equilibrium direction of m") #index denotes field sweep step
+##plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
+##plt.plot(fieldrangeT, fsignal2w, label = 'fft r2w')
+##plt.plot(fieldrangeT, H,'r')
+##ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
 
 st.pyplot(figv1w)
 st.pyplot(figv2w)
@@ -389,7 +386,7 @@ st.pyplot(figamr)
 st.pyplot(figahe)
 st.pyplot(figmag)
 
-
+#Pending code sections
     #if st.checkbox("Show fields evolution", False):
     #    figfields = graphm(timeEvol[s_index], Hx[s_index], Hy[s_index], Hz[s_index],
     #                      "time [ns]", r'$m_i$',  
