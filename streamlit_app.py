@@ -8,7 +8,6 @@ import scipy.optimize
 import matplotlib.pyplot as plt
 from functools import partial
 import os, sys
-from bokeh.plotting import figure, show
 
 st.sidebar.markdown("## Parameters used in the simulation")
 st.sidebar.markdown("Enter your own custom values to run the model")
@@ -325,19 +324,20 @@ st.image("https://journals.aps.org/prb/article/10.1103/PhysRevB.89.144425/figure
 st.write(r'The LLG equation employed in the model is in explicit form and takes the Slonczewsky spin-orbit-torque coefficients as input. It goes as follows:')
 st.latex(r''' \frac{\partial \vec{m}}{\partial t} =
    \frac{\gamma}{1+\alpha^2} (\vec{m} \times \vec{H}_{\text{eff}}) - 
-   \frac{\gamma \alpha}{1+\alpha^2} \:(\vec{m} \times \vec{m} \times \vec{H}_{\text{eff}})''')
+   \frac{\gamma \alpha}{1+\alpha^2} \:\vec{m} \times (\vec{m} \times \vec{H}_{\text{eff}})''')
 st.write(r'Where $m$ represents the mgnetization unit vector, $\alpha$ the Gilbert damping constant, $\gamma$ the gyromagnetic ratio, and $\vec{H}_{\text{eff}}$ is the effective magnetic field. The effective magnetic field contains contributions of the applied external field, the effective anisotropy field, and the current induced fields via spin orbit torque effects. It reads as follows:')
 st.latex(r''' \vec{ H }_{\text{eff}} =
 \vec{ H }_{\text{ext}} + \vec{ H }_{\text{k}} + 
 \vec{ H }^{\text{SOT}}_{\text{FL}} + 
 \vec{ H }^{\text{SOT}}_{\text{DL}} \\ \:\\ \:\\
 \vec{ H }_{\text{k}} = \frac{2\vec{K}_1}{Js}  \\ \:\\
-\vec{ H }^{\text{SOT}}_{\text{FL}} = \eta_\text{FL} \frac{  j_e \hbar  }{ 2 e t \mu_0 M_s }\:(\vec{m} \times \vec{m} \times \vec{p}) \\ \:\\
+\vec{ H }^{\text{SOT}}_{\text{FL}} = \eta_\text{FL} \frac{  j_e \hbar  }{ 2 e t \mu_0 M_s }\:\vec{m} \times (\vec{m} \times \vec{p}) \\ \:\\
 \vec{ H }^{\text{SOT}}_{\text{DL}} = \eta_\text{DL} \frac{  j_e \hbar  }{ 2 e t \mu_0 M_s }\:(\vec{m} \times \vec{p})
 ''')
 
 
-st.write(r"The $\vec{p}$ vector represents the spin polarization of electrons. For a current flowing along the x direction, the vetor is $(0,-1,0)$. As the here simulated system presents out of plane magnetization along the +z axis, the $\vec{K}_1$ anisotropy constant is represented by $(0,0,K_1)$")
+st.write(r"The $\vec{p}$ vector represents the spin polarization of electrons. For a current flowing along the x direction, the vector is $(0,-1,0)$. As the here simulated system presents out of plane magnetization along the +z axis, the $\vec{K}_1$ anisotropy constant is represented by $(0,0,K_1)$")
+st.write("Therefore, this simplified model just describes out-of-plane systems with negligible Planar Hall Effect, compared to the Anomalous Hall Effect. It will get improved soon.")
 
 st.caption("Performing the integration")
 
@@ -351,10 +351,10 @@ st.latex(r'''
    ''')
 st.write(r"As the system starts fully pointing in the z direction, it is important to simulate the electric current with a cosine wave $J_x=j_e \cos(\omega t)$. ")
 
-if st.checkbox("_Show relaxation of magnetization_", True):
-    selected_field = st.select_slider('_Check the trajectories for an specific field value [A/m]_',
+if st.checkbox("Show relaxation of magnetization", True):
+    selected_field = st.select_slider('Slide the bar to check the trajectories for an specific field value [A/m]',
                     options = fieldrange.tolist())
-    st.write("_Field value equivalent to_", str( round(selected_field*paramters.mu0, 3) ), "[T]")
+    st.write("Field value equivalent to", str( round(selected_field*paramters.mu0, 3) ), "[T]")
 
     s_index = fieldrange.tolist().index(selected_field)
 
@@ -381,7 +381,7 @@ figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w
 figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w", "Second harmonic voltage" )
 
 figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', r'$m_x^2$','AMR effect')
-figahe = graph(fieldrangeT, aheList, r'$\mu_0 H_x$ (T)', r'$m_{z,+j_e}-m_{z,-j_e}$', r'$m_{z,+j_e}-m_{z,ij_e}$','AMR effect')
+figahe = graph(fieldrangeT, aheList, r'$\mu_0 H_x$ (T)', r'$m_{z,+j_e}-m_{z,-j_e}$', r'$m_{z,+j_e}-m_{z,ij_e}$','AHE effect')
 
 figmag = graphm(fieldrangeT, m_eqx, m_eqy, m_eqz, r'$\mu_0 H_x$ (T)', r'$m_i$',  "Equilibrium direction of m") #index denotes field sweep step
 ##plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
@@ -409,7 +409,3 @@ st.pyplot(figmag)
     #                      "Current induced fields at H_ext:" + str( round(selected_field*paramters.mu0, 3) ) + "[T]")
     #
     #    st.pyplot(figfields)
-        
-
-
-
