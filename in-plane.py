@@ -209,7 +209,7 @@ if longitudinalSweep:
     fieldrange = np.linspace(-0.1/paramters.mu0,     0.1/paramters.mu0,    num = n )
     for i in fieldrange:
         paramters.currentd = orgdensity
-        paramters.hext = np.array([i,0,0])
+        paramters.hext = np.array([0,0,i])
         initm=[0,0,1]
         initm=np.array(initm)/np.linalg.norm(initm)
         R1w,R2w, t,hx,hy,hz, mx,my,mz, Hs, nR2w, lR2w, fR2w = calc_w1andw2(m0_=initm,
