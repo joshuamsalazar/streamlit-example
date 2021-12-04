@@ -308,6 +308,7 @@ def calc_w1andw2(m0_,t0_,t1_,dt_,paramters_):
 paramters = Parameters()
 n = 21
 phirange   = np.linspace(-np.pi/2,           np.pi*3/2,         num=n)
+timeEvol = []
 signalw  = []
 signal2w  = []
 signalwxx  = []
