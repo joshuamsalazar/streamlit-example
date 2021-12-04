@@ -404,9 +404,9 @@ def savedata(p, sig, fieldrangeT, name):
 #showplot()
 
 #os.system("cp " + sys.argv[0] + " "
-          + "v2o_Htil_mxp_ip" + name 
-          + "_j" + str(float(sys.argv[1])/1.0) + "e10"
-          + sys.argv[0])
+#          + "v2o_Htil_mxp_ip" + name 
+#          + "_j" + str(float(sys.argv[1])/1.0) + "e10"
+#          + sys.argv[0])
 
 def graph(x, y, xlab, ylab, pltlabel, plthead):
    fig, ax = plt.subplots()
