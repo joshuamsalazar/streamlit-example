@@ -71,6 +71,25 @@ def fields(t,m,p):
     Hk = 2 * p.K1/p.Js + 2 * p.K12/p.Js
     Hd = p.etadamp * p.currentd * p.hbar/(2*p.e*p.Js*p.d)
     return (Hk, Hd)
+
+def jacmini(t,m1,p):
+ m=m1/np.linalg.norm(m1)
+ j            = p.currentd * np.sin(2 * 3.1415927 * p.frequency * t)
+ prefactorpol = j * p.hbar/(2 * p.e * p.Js * p.d)
+ hani         = 2 * p.K1/p.Js * p.easy_axis * np.dot(p.easy_axis,m)
+ hani2        = 2 * p.K12/p.Js * p.easy_axis2 * np.dot(p.easy_axis2,m)
+ h            = p.hext+hani+hani2
+ H            = - prefactorpol * (p.etadamp * np.cross(p.p_axis,m) - p.etafield * p.p_axis)
+ Hdc          = -( (p.currentd 
+                   * p.hbar/(2 * p.e * p.Js * p.d)) 
+                 * (p.etadamp * np.cross(p.p_axis,m) - p.etafield * p.p_axis)
+                 )
+ mxh          = np.cross(     m,  h-prefactorpol*( p.etadamp * np.cross(p.p_axis,m) - p.etafield * p.p_axis )    ) #Corrected from Dieter
+ mxmxh        = np.cross(     m,  mxh)
+ return mxmxh
+
+def fmini(t,m1,p):
+ return(np.linalg.norm(jacmini(t,m1,p)))
     
 def fac(t, m, p):
     j            = p.currentd * np.sin(2 * 3.1415927 * p.frequency * t)
