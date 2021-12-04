@@ -19,11 +19,13 @@ periSampl = 1000 #
 class Parameters:
     gamma = 2.2128e5
     alpha      = float(st.sidebar.text_input('Gilbert damping constant', 1))
-    K1         = float(st.sidebar.text_input('Anisotropy constant K_1 [J/m^3]', -1.5 * 9100))   
-    K12        = float(st.sidebar.text_input('Anisotropy constant K_12 (along y) [J/m^3]', 1.5 * 9.1))
-    Js         = float(st.sidebar.text_input('Saturation magnetization Js [T]', 0.65))
-    RAHE       = float(st.sidebar.text_input('Anomalous Hall effect coefficient', 0.65)) 
-    d          = float(st.sidebar.text_input('FM layer thickness [nm]', (0.6+1.2+1.1) * 1e-9))       
+    K1         = float(st.sidebar.text_input('Anisotropy constant K_1 [J/m^3]', -181476))   
+    K12        = float(st.sidebar.text_input('Anisotropy constant K_12 (along y) [J/m^3]', 0))
+    Js         = float(st.sidebar.text_input('Saturation magnetization Js [T]', 1))
+    RAHE       = float(st.sidebar.text_input('Anomalous Hall effect coefficient', 1)) 
+    RPHE       = float(st.sidebar.text_input('Anomalous Hall effect coefficient', 0.1))
+    RAMR       = float(st.sidebar.text_input('Anomalous Hall effect coefficient', 1))
+    d          = float(st.sidebar.text_input('FM layer thickness [m]', (2) * 1e-9))       
     frequency  = float(st.sidebar.text_input('AC frequency [Hz]', 0.1e9)) 
     currentd   = je * 1e10
     hbar = 1.054571e-34
@@ -32,8 +34,8 @@ class Parameters:
     easy_axis = np.array([0,0,1])
     easy_axis2= np.array([0,1,0])
     p_axis = np.array([0,-1,0])
-    etadamp    = float(st.sidebar.text_input('Damping like torque term coefficient', 0.084))    
-    etafield   = float(st.sidebar.text_input('Field like torque term', 0.008))               # etafield/etadamp=eta
+    etadamp    = float(st.sidebar.text_input('Damping like torque term coefficient', 0.004))    
+    etafield   = float(st.sidebar.text_input('Field like torque term', 0.004))               # etafield/etadamp=eta
     eta        = etafield/etadamp
     hext = np.array([1.0 * K1/Js,0,0])
     
@@ -70,30 +72,52 @@ def fields(t,m,p):
     Hd = p.etadamp * p.currentd * p.hbar/(2*p.e*p.Js*p.d)
     return (Hk, Hd)
     
-def f(t, m, p):
-    j            = p.currentd * np.cos(2 * 3.1415927 * p.frequency * t)
+def fac(t, m, p):
+    j            = p.currentd * np.sin(2 * 3.1415927 * p.frequency * t)
     prefactorpol = j * p.hbar/(2 * p.e * p.Js * p.d)
     hani         = 2 * p.K1/p.Js * p.easy_axis * np.dot(p.easy_axis,m)
-    hani2        = 2 * p.K12/p.Js * p.easy_axis * np.dot(p.easy_axis2,m)
-    h            = p.hext+hani + hani2
-    H            = - prefactorpol * (p.etadamp * np.cross(p.p_axis,m) + p.etafield * p.p_axis)
-    mxh          = np.cross(     m,  h-prefactorpol*( p.etadamp * np.cross(p.p_axis,m) + p.etafield * p.p_axis )    ) #Corrected from Dieter
+    hani2        = 2 * p.K12/p.Js * p.easy_axis2 * np.dot(p.easy_axis2,m)
+    h            = p.hext+hani+hani2
+    H            = - prefactorpol * (p.etadamp * np.cross(p.p_axis,m) - p.etafield * p.p_axis)
+    Hdc          = -( (p.currentd 
+                      * p.hbar/(2 * p.e * p.Js * p.d)) 
+                    * (p.etadamp * np.cross(p.p_axis,m) - p.etafield * p.p_axis)
+                    )
+    mxh          = np.cross(     m,  h-prefactorpol*( p.etadamp * np.cross(p.p_axis,m) - p.etafield * p.p_axis )    ) #Corrected from Dieter
     mxmxh        = np.cross(     m,  mxh) 
     rhs          = - p.gamma/(1+p.alpha**2) * mxh-p.gamma * p.alpha/(1+p.alpha**2) * mxmxh  
-    p.result.append([t,m[0],m[1],m[2],H[0],H[1],H[2]])
+    p.result.append([t,m[0],m[1],m[2],H[0],H[1],H[2],Hdc[0],Hdc[1],Hdc[2]])
     return [rhs]
   
+def fdc(t, m, p):
+    j            = 0#p.currentd #* np.sin(2 * 3.1415927 * p.frequency * t)
+    prefactorpol = j * p.hbar/(2 * p.e * p.Js * p.d)
+    hani         = 2 * p.K1/p.Js * p.easy_axis * np.dot(p.easy_axis,m)
+    hani2        = 2 * p.K12/p.Js * p.easy_axis2 * np.dot(p.easy_axis2,m)
+    h            = p.hext+hani+hani2
+    H            = - prefactorpol * (p.etadamp * np.cross(p.p_axis,m) - p.etafield * p.p_axis)
+    Hdc          = -( (p.currentd 
+                      * p.hbar/(2 * p.e * p.Js * p.d)) 
+                    * (p.etadamp * np.cross(p.p_axis,m) - p.etafield * p.p_axis)
+                    )
+    mxh          = np.cross(     m,  h-prefactorpol*( p.etadamp * np.cross(p.p_axis,m) - p.etafield * p.p_axis )    ) #Corrected from Dieter
+    mxmxh        = np.cross(     m,  mxh) 
+    rhs          = - p.gamma/(1+p.alpha**2) * mxh-p.gamma * p.alpha/(1+p.alpha**2) * mxmxh  
+    p.result.append([t,m[0],m[1],m[2],H[0],H[1],H[2],Hdc[0],Hdc[1],Hdc[2]])
+    return [rhs]
+
 def calc_equilibrium(m0_,t0_,t1_,dt_,paramters_):
     t0 = t0_
     m0 = m0_
     dt = dt_
-    r = ode(f).set_integrator('vode', method='bdf',atol=1e-14,nsteps =500000)
+    r = ode(fac).set_integrator('vode', method='bdf',atol=1e-14,nsteps =500000)
     r.set_initial_value(m0_, t0_).set_f_params(paramters_).set_jac_params(2.0)
     t1 = t1_
     #Creating a counter and an array to store the magnetization directions
     count = 0
     magList = [[],[],[],[]] 
     testSignal = []
+    found = False
     while r.successful() and r.t < t1: # and count < (periSampl + 1):  #OLD: XXX 
         #To make sure the steps are equally spaced 
         #Hayashi et al. (2014), after eqn 45, suggests to divide one period into
@@ -107,19 +131,47 @@ def calc_equilibrium(m0_,t0_,t1_,dt_,paramters_):
         #Computing the H^{DL} at each time step
         Hs = fields(r.t,mag,paramters_)
         count += 1
-        #if count%100 == 0: print(count)
     magList = np.array(magList)
-    #print(magList[0][0], magList[0][-1] )
     return(r.t,magList,Hs, testSignal)
-  
+   
+def calc_equilibriumdc(m0_,t0_,t1_,dt_,paramters_):
+    t0 = t0_
+    m0 = m0_
+    dt = dt_
+    rdc = ode(fdc).set_integrator('vode', method='bdf',atol=1e-14,nsteps =500000)
+    rdc.set_initial_value(m0_, t0_).set_f_params(paramters_).set_jac_params(2.0)
+    t1 = t1_
+    #Creating a counter and an array to store the magnetization directions
+    count = 0
+    magList = [[],[],[],[]] 
+    testSignal = []
+    found = False
+    magdc=rdc.integrate(rdc.t+dt)
+    while rdc.successful() and rdc.t < t1: # and count < (periSampl + 1):  #OLD: XXX 
+        #To make sure the steps are equally spaced 
+        #Hayashi et al. (2014), after eqn 45, suggests to divide one period into
+        # 200 time steps to get accurate temporal variation of Hall voltages
+        magdc=rdc.integrate(rdc.t+dt)
+        magList[0].append(rdc.t)
+        magList[1].append(magdc[0])
+        magList[2].append(magdc[1])
+        magList[3].append(magdc[2])
+        Hs = fields(rdc.t,magdc,paramters_)
+        testSignal.append(   fmini(rdc.t,magdc,paramters_)   )
+    magList = np.array(magList)
+    return(rdc.t,magList,Hs, testSignal)
+
 def calc_w1andw2(m0_,t0_,t1_,dt_,paramters_): 
     paramters_.result = []
     t1,magList, Hs, testSignal    = calc_equilibrium(m0_,t0_,t1_,dt_,paramters_)
     npresults         = np.array(paramters_.result)
+    t1dc,magListdc, Hsdc, testSignaldc    = calc_equilibriumdc(m0_,t0_,t1_,dt_,paramters_)
+    npresults         = np.array(paramters_.result)
     time              = np.array( magList[0] )
     sinwt             = np.sin(     2 * 3.1415927 * paramters_.frequency * time)
     cos2wt            = np.cos( 2 * 2 * 3.1415927 * paramters_.frequency * time)
-    current           = paramters_.currentd * np.cos(2 * 3.1415927 * paramters_.frequency * time)
+    #ac current
+    current           = paramters_.currentd * np.sin(2 * 3.1415927 * paramters_.frequency * time)
     # time steps array creation
     z=0
     dt=[]
@@ -129,70 +181,121 @@ def calc_w1andw2(m0_,t0_,t1_,dt_,paramters_):
             dt.append(time[z]-time[z-1])
         z=z+1
     dt=np.array(dt)
-    #Computing the voltage from R_{AHE}
-    voltage         = current * magList[3] * paramters_.RAHE  * (2e-6 * 6e-9)
-    voltage         = voltage[periSampl:]
-    current         = current[periSampl:]
-    time            = time[periSampl:]
-    sinwt           = sinwt[periSampl:]
-    cos2wt          = cos2wt[periSampl:]
-    dt              = dt[periSampl:]
+    #Computing the voltage from R_{XY}
+    voltage         = current*(2e-6 * 6e-9)*(magList[3]*paramters_.RAHE + magList[1]*magList[2]* paramters_.RPHE)
+    voltagexx       = current * magList[1]**2  * paramters_.RAMR  * (2e-6 * 6e-9)
+
+    voltage         = voltage[periSampl*3:]
+    voltagexx       = voltagexx[periSampl*3:]
+    current         = current[periSampl*3:]
+    time            = time[periSampl*3:]
+    sinwt           = sinwt[periSampl*3:]
+    cos2wt          = cos2wt[periSampl*3:]
+    dt              = dt[periSampl*3:]
 
     #nR2w            = np.sum(voltage/paramters_.currentd * cos2wt * dt)*(2/time[-1])
-    R1w             = np.sum(voltage * sinwt  * dt)*(2 / (time[-1]*(3/4)) )
-    R2w             = np.sum(voltage * cos2wt * dt)*(2 / (time[-1]*(3/4)) )
+    R1w             = np.sum(voltage * sinwt  * dt)*(2 / (time[-1]*(1/4)) )
+    R2w             = np.sum(voltage * cos2wt * dt)*(2 / (time[-1]*(1/4)) )
+    R1wxx           = np.sum(voltagexx * sinwt  * dt)*(2 / (time[-1]*(1/4)) )
+    R2wxx           = np.sum(voltagexx * cos2wt * dt)*(2 / (time[-1]*(1/4)) )
     #R2w             = np.sum(testSignal[periSampl:] * cos2wt * dt)*(2 / (time[-1]*(3/4)) )
     
     #R1w            = np.dot( voltage * dt,sinwt  )/( np.dot(sinwt * dt,sinwt) * paramters_.currentd)
     #nR2w            = np.dot( voltage * dt,cos2wt )/( np.dot(cos2wt * dt, cos2wt) * paramters_.currentd)
     
-    fR2w           = fft( voltage, magList[0][periSampl:], paramters_.frequency)
-    lR2w           = lockin( voltage, magList[0][periSampl:], paramters_.frequency, 0)
+    fR2w           = fft( voltagexx, magList[0][periSampl*3:], paramters_.frequency)
+    lR2w           = lockin( voltagexx, magList[0][periSampl*3:], paramters_.frequency, 0)
     
     #nR2w           = np.fft.fft(magList[3], 2)/2
-    nR2w           = lockin( voltage/paramters_.currentd, magList[0][periSampl:], paramters_.frequency, 90)
+    nR2w           = lockin( voltagexx/paramters_.currentd, magList[0][periSampl*3:], paramters_.frequency, 90)
     #Checking the magnetization time evolution at each external field value:
-    
+
     #plt.plot(time, magList[1], label = 'mx')
     #plt.plot(time, magList[2], label = 'my')
-    #plt.plot(time, magList[3][periSampl:], label = 'mz tree periods')
+    #plt.plot(time, magList[3], label = 'mz')
+
+    # -------------------------------------- maglist is cleaner -----------------------------------
+     #print(npresults[testSignal[0],1])
+    meanX           = magListdc[1][-1]
+    meanY           = magListdc[2][-1]
+    meanZ           = magListdc[3][-1]
+    #meanX          = magList[1][testSignal[0]] * np.ones(len(magList[0]))
+    #meanx          =  np.ones(len(magList[0])) # np.mean(npresults[int(np.floor(len(magList[1]/2)))) *
+    #meanY          = magList[2][testSignal[0]] * np.ones(len(magList[0]))
+    #meany          =  np.ones(len(magList[0])) # np.mean(npresults[int(np.floor(len(magList[2]/2)))) *
+    #print(npresults[-1,0],npresults[-1,1],npresults[-1,2],npresults[-1,3],len(magList[0]))
+    #meanz          =  np.ones(len(magList[0])) # np.mean(npresults[int(np.floor(len(magList[3]/2)))) *
+    #meanZ          = magList[3][testSignal[0]] * np.ones(len(magList[0]))
+    #plt.plot(magList[0], magList[1], "C0--", label = 'Mx')
+    #plt.plot(magListdc[0], magListdc[1], "C0", label = 'Mx dc')
+    #plt.plot(magList[0], meanX         , "C0",   label = 'x')
+    #plt.plot(magList[0], magList[2], "C1--", label = 'My')
+    #plt.plot(magListdc[0], magListdc[2], "C1", label = 'Mydc')
+    #plt.plot(magList[0], meanY         , "C1",   label = 'y')
+    ##plt.plot(magList[0], meanY         , "C5--",   label = 'MY')
+    #plt.plot(magListdc[0], testSignaldc         , "C4",   label = 'MxMxH')
+    #plt.plot(magList[0], magList[3], "C2--", label = 'Mz')
+    #plt.plot(magListdc[0], magListdc[3], "C2", label = 'Mzdc')
+    #plt.plot(magList[0], meanZ         , "C2",   label = 'z')
+    ax=plt.axes()
+    #ax.set(xlabel=r'$\phi$ [grad]',ylabel = r'$m_{i}$ ') 
+    ax.set(xlabel = r'$\mu_0 H_ext$ [T] (along z, tilted 5 deg. in x)',ylabel = 'M_i')#r'$V_{2w} [V]$ ')
+    plt.title("H_z = " + str(round(paramters_.hext[2]*paramters_.mu0,4)) + "[T]" )
+    plt.legend()
+    plt.show()
+    
+    #print(npresults[testSignal[0],1])
+    #meanX          = npresults[testSignal[0],1] * np.ones(len(npresults[:,0]))
+    #meanx          = np.mean(npresults[int(np.floor(len(npresults[:,0])/2)):,1]) * np.ones(len(npresults[:,0]))
+    #meanY          = npresults[testSignal[0],2] * np.ones(len(npresults[:,0]))
+    #meany          = np.mean(npresults[int(np.floor(len(npresults[:,0])/2)):,2]) * np.ones(len(npresults[:,0]))
+    #print(npresults[-1,0],npresults[-1,1],npresults[-1,2],npresults[-1,3],len(npresults[:,0]))
+    #meanz          = np.mean(npresults[int(np.floor(len(npresults[:,0])/2)):,3]) * np.ones(len(npresults[:,0]))
+    #meanZ          = npresults[testSignal[0],3] * np.ones(len(npresults[:,0]))
+    #plt.plot(npresults[:,0], npresults[:,1], "C0--", label = 'Mx')
+    #plt.plot(npresults[:,0], meanx         , "C0",   label = 'x')
+    #plt.plot(npresults[:,0], npresults[:,2], "C1--", label = 'My')
+    #plt.plot(npresults[:,0], meany         , "C1",   label = 'y')
+    #plt.plot(npresults[:,0], meanY         , "C5--",   label = 'MY')
+    #plt.plot(magList[0], testSignal         , "C4",   label = 'MxMxH')
+    #plt.plot(npresults[:,0], npresults[:,3], "C2--", label = 'Mz')
+    #plt.plot(npresults[:,0], meanz         , "C2",   label = 'z')
     #plt.plot(magList[0], magList[3], label = 'mz_full period')
-    #plt.title("H_x = " + str(paramters_.hext[0]*paramters_.mu0) + "[T]" )
+    #plt.title("H_z = " + str(paramters_.hext[2]*paramters_.mu0) + "[T]" )
     #plt.legend()
     #plt.show()
-    #plt.plot(time, mzlowfield(time, paramters_), label = 'test')
     #plt.plot(time, np.full(time.shape, sum(magList[1]) / len(magList[1]) ), label = 'mx')
     #plt.plot(time, np.full(time.shape, sum(magList[2]) / len(magList[2]) ), label = 'my')
     #plt.plot(time, np.full(time.shape, sum(magList[3]) / len(magList[3]) ), label = 'mz')
-    #plt.plot(time, testSignal, label = 'cos(X)')
-    #plt.plot(time, voltage, label = 'cos(X)')
+    #plt.plot(time[periSampl:], current*(2e-6 * 6e-9), label = 'cos(X)')
+    #plt.plot(time[periSampl:], magList[1][periSampl:]*(2e-6 * 6e-9), label = 'mx')
+    #plt.plot(time[periSampl:], voltage, label = 'V_xy')
 
     #Checking the current-induced fields time evolution at each external field value:
     
-    #plt.plot(time, npresults[:,4], label = 'Hx')
-    #plt.plot(time, npresults[:,5], label = 'Hy')
-    #plt.plot(time, npresults[:,6], label = 'Hz')
+    #plt.plot(npresults[:,0], npresults[:,4], "C0--", label = 'Hx')
+    #plt.plot(npresults[:,0], npresults[:,5], "C1--",label = 'Hy')
+    #plt.plot(npresults[:,0], npresults[:,6], "C2--",label = 'Hz')
+    #plt.plot(npresults[:,0], npresults[:,7], "C0",label = 'Hx(DC)')
+    #plt.plot(npresults[:,0], npresults[:,8], "C1",label = 'Hy(DC)')
+    #plt.plot(npresults[:,0], npresults[:,9], "C2",label = 'Hz(DC)')
     #plt.legend()
     #plt.show()
     
     #Final value of the current-induced field
     #H_eff = print(npresults[-1,4],npresults[-1,5],npresults[-1,6])
-    #return(R1w,R2w,npresults[-1,4],npresults[-1,5],npresults[-1,6],npresults[-1,1],npresults[-1,2],npresults[-1,3], Hs, nR2w, lR2w, fR2w)
-    return(R1w,R2w, 
-           magList[0], # ZZZ re-write function to save memory (duplicated time array)
-           npresults[:,4],npresults[:,5],npresults[:,6],
-           magList[1], magList[2], magList[3],
-           Hs, nR2w, lR2w, fR2w)
+    return(R1w,R2w,npresults[-1,7],npresults[-1,8],npresults[-1,9],meanX, meanY, meanZ, Hs, nR2w, lR2w, fR2w, R1wxx, R2wxx)
     
 paramters = Parameters()
 n = 21
 phirange   = np.linspace(-np.pi/2,           np.pi*3/2,         num=n)
 signalw  = []
 signal2w  = []
+signalwxx  = []
+signal2wxx  = []
 nsignal2w = []
 lsignal2w = []
 fsignal2w = []
-timeEvol = []
 Hx,Hy,Hz = [[],[],[]]
 Mx,My,Mz = [[],[],[]]
 m_eqx, m_eqy, m_eqz = [[],[],[]]
@@ -203,22 +306,19 @@ orgdensity = paramters.currentd
 
 longitudinalSweep = True
 rotationalSweep = False
-
+th = 5*np.pi/180            #External Field titled direction 
+ph = 0
 if longitudinalSweep:
     name = "_HSweep"
-    fieldrange = np.linspace(-0.1/paramters.mu0,     0.1/paramters.mu0,    num = n )
+    fieldrange = np.linspace(-0.0015/paramters.mu0,     0.0015/paramters.mu0,    num = n )
     for i in fieldrange:
         paramters.currentd = orgdensity
-        paramters.hext = np.array([0,0,i])
-        initm=[0,0,1]
+        #paramters.hext = np.array([0,0,i])
+        paramters.hext = np.array([ np.sin(th) * np.cos(ph) * i , np.sin(th) * np.sin(ph) * i , np.cos(th) * i])
+        initm=[1,0,0]
         initm=np.array(initm)/np.linalg.norm(initm)
-        R1w,R2w, t,hx,hy,hz, mx,my,mz, Hs, nR2w, lR2w, fR2w = calc_w1andw2(m0_=initm,
-                                                                          t0_=0,
-                                                                          t1_=4/paramters.frequency,
-                                                                          dt_=1/(periSampl * paramters.frequency),
-                                                                          paramters_=paramters)
+        R1w,R2w,hx,hy,hz,mx,my,mz, Hs, nR2w, lR2w, fR2w, R1wxx, R2wxx = calc_w1andw2(m0_=initm,t0_=0,t1_=4/paramters.frequency,dt_=1/(periSampl * paramters.frequency), paramters_=paramters)
         #Storing each current-induced field and magnetization state for each ext field value
-        timeEvol.append(t)
         Hx.append(hx)
         Hy.append(hy)
         Hz.append(hz)
@@ -231,12 +331,13 @@ if longitudinalSweep:
         fieldrangeT.append(i * paramters.mu0)
         signalw.append(R1w)
         signal2w.append(R2w)
+        signalwxx.append(R1wxx)
+        signal2wxx.append(R2wxx)
         nsignal2w.append(nR2w)
         lsignal2w.append(lR2w)
         fsignal2w.append(fR2w)
         phirangeRad.append(0)
         
-        #AHE & AMR
         paramters.currentd = -paramters.currentd
         it1,imagList, iHs, itestSignal    = calc_equilibrium(m0_=initm,t0_=0,t1_=4/paramters.frequency,dt_=1/(periSampl * paramters.frequency), paramters_=paramters)
         
@@ -244,7 +345,9 @@ if longitudinalSweep:
         amrList.append(mx[-1]*mx[-1])
         
         #Live prompt
-        #print(i, R1w, R2w, '\tHk,Hd', round(Hs[0]), round(Hs[1]), mx[-1], my[-1], mz[-1])
+        print(paramters.hext, (paramters.hext[0]**2 + paramters.hext[1]**2
+                               + paramters.hext[2]**2)**0.5)
+        #print(i, R1w, R2w, '\tHk,Hd', round(Hs[0]), round(Hs[1]), mx, my, mz)
 
 if rotationalSweep:
     name = "_HconsRotat"
@@ -276,19 +379,34 @@ def savedata(p, sig, fieldrangeT, name):
     #Storing the data into a dat file with the following strcture:
     #Delta denotes current-induced fields
     # ` denotes equilibium 
-    # Current | H_ext | R2w | \Delta H_x | \Delta H_y | \Delta H_z | 7mz` | my` | mz` | Rw | 11 phi rad
-    with open( "v2o_" + str(name) + "_j" + str(p.currentd/1e10) + "e10.dat", "w") as f:
+    # Current | H_ext | R2w |
+    # \Delta H_x | \Delta H_y | \Delta H_z |
+    # 7mx` | my` | mz` | Rw | 11 phi rad
+    # 12 r1wxx r2wxx
+    with open( "v2o_" + str(name) + "_j" + str(p.currentd/1e10) + "e10_" + sys.argv[0] + ".dat", "w") as f:
         i = 0
         for sig in signal2w:
             f.write( str(p.currentd) + "\t"  + str(fieldrangeT[i]) + "\t" + str(sig) + "\t" 
                     + str(Hx[i]) + "\t" + str(Hy[i]) + "\t" + str(Hz[i]) +'\t' 
-                    + str(Mx[i]) + "\t" + str(My[i]) + "\t" + str(Mz[i]) + '\t' + str(signalw[i]) + "\t" + str(phirangeRad[i])
+                    + str(Mx[i]) + "\t" + str(My[i]) + "\t" + str(Mz[i]) + '\t' + str(signalw[i]) + "\t" 
+                    + str(phirangeRad[i]) + "\t" + str(signalwxx[i]) + "\t" + str(signal2wxx[i])
                     + "\n")
             i += 1
-        f.write("Hk\tHdamp\teta(f/d)\t t\t freq\n")
-        f.write( str(Hs[0]) + '\t' + str(Hs[1]) + "\t" + str(p.etafield/p.etadamp) + "\t" + str(p.d) 
-                + '\t' + str(p.frequency) + '\n')
+        f.write("Hk1 \t Hk12 \t Hdamp \t etaD \t etaF \t t\t freq \t Js \t Rahe \t Rphe \t Ramr \n")
+        f.write( str(Hs[0]) + '\t' + str(Hs[1]) + '\t' + str(Hs[2]) + "\t" 
+                + str(p.etadamp) + "\t" + str(p.etafield) + "\t" + str(p.d) + "\t"
+                + str(p.frequency) + "\t" + str(p.Js) + "\t" 
+                + str(p.RAHE) + "\t" + str(p.RPHE) + "\t" + str(p.RAMR) 
+                + '\n')
         f.close()
+        
+#savedata(paramters, signal2w, fieldrangeT, "Htil_mxp_ip" + name)
+#showplot()
+
+#os.system("cp " + sys.argv[0] + " "
+          + "v2o_Htil_mxp_ip" + name 
+          + "_j" + str(float(sys.argv[1])/1.0) + "e10"
+          + sys.argv[0])
 
 def graph(x, y, xlab, ylab, pltlabel, plthead):
    fig, ax = plt.subplots()
