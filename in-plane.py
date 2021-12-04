@@ -303,7 +303,7 @@ def calc_w1andw2(m0_,t0_,t1_,dt_,paramters_):
     
     #Final value of the current-induced field
     #H_eff = print(npresults[-1,4],npresults[-1,5],npresults[-1,6])
-    return(R1w,R2w,npresults[-1,7],npresults[-1,8],npresults[-1,9],meanX, meanY, meanZ, Hs, nR2w, lR2w, fR2w, R1wxx, R2wxx)
+    return(R1w,R2w,magList[0],npresults[-1,7],npresults[-1,8],npresults[-1,9],meanX, meanY, meanZ, Hs, nR2w, lR2w, fR2w, R1wxx, R2wxx)
     
 paramters = Parameters()
 n = 21
@@ -337,7 +337,7 @@ if longitudinalSweep:
         paramters.hext = np.array([ np.sin(th) * np.cos(ph) * i , np.sin(th) * np.sin(ph) * i , np.cos(th) * i])
         initm=[1,0,0]
         initm=np.array(initm)/np.linalg.norm(initm)
-        R1w,R2w,hx,hy,hz,mx,my,mz, Hs, nR2w, lR2w, fR2w, R1wxx, R2wxx = calc_w1andw2(m0_=initm,t0_=0,t1_=4/paramters.frequency,dt_=1/(periSampl * paramters.frequency), paramters_=paramters)
+        R1w,R2w,t,hx,hy,hz,mx,my,mz, Hs, nR2w, lR2w, fR2w, R1wxx, R2wxx = calc_w1andw2(m0_=initm,t0_=0,t1_=4/paramters.frequency,dt_=1/(periSampl * paramters.frequency), paramters_=paramters)
         #Storing each current-induced field and magnetization state for each ext field value
         timeEvol.append(t)
         Hx.append(hx)
