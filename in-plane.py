@@ -22,9 +22,9 @@ class Parameters:
     K1         = float(st.sidebar.text_input('Anisotropy constant K_1 [J/m^3]', -181476))   
     K12        = float(st.sidebar.text_input('Anisotropy constant K_12 (along y) [J/m^3]', 0))
     Js         = float(st.sidebar.text_input('Saturation magnetization Js [T]', 1))
-    RAHE       = float(st.sidebar.text_input('Anomalous Hall effect coefficient', 1)) 
-    RPHE       = float(st.sidebar.text_input('Anomalous Hall effect coefficient', 0.1))
-    RAMR       = float(st.sidebar.text_input('Anomalous Hall effect coefficient', 1))
+    RAHE       = float(st.sidebar.text_input('Anomalous Hall effect coefficient [Ohm]', 1)) 
+    RPHE       = float(st.sidebar.text_input('Planar Hall effect coefficient [Ohm]', 0.1))
+    RAMR       = float(st.sidebar.text_input('Anisotropic Magnetoresistance coefficient [Ohm]', 1))
     d          = float(st.sidebar.text_input('FM layer thickness [m]', (2) * 1e-9))       
     frequency  = float(st.sidebar.text_input('AC frequency [Hz]', 0.1e9)) 
     currentd   = je * 1e10
