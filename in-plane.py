@@ -338,6 +338,7 @@ if longitudinalSweep:
         initm=np.array(initm)/np.linalg.norm(initm)
         R1w,R2w,hx,hy,hz,mx,my,mz, Hs, nR2w, lR2w, fR2w, R1wxx, R2wxx = calc_w1andw2(m0_=initm,t0_=0,t1_=4/paramters.frequency,dt_=1/(periSampl * paramters.frequency), paramters_=paramters)
         #Storing each current-induced field and magnetization state for each ext field value
+        timeEvol.append(t)
         Hx.append(hx)
         Hy.append(hy)
         Hz.append(hz)
