@@ -160,7 +160,7 @@ def calc_equilibrium(m0_,t0_,t1_,dt_,paramters_):
         #print(old[5])
         #if oldparamters_.tEvol[-1] < old[5]:
         #count+=1
-    print(count)
+    #print(count)
     return np.array(magList)
 
 def calc_w1andw2(m0_,t0_,t1_,dt_,paramters_): 
@@ -216,8 +216,8 @@ def calc_w1andw2(m0_,t0_,t1_,dt_,paramters_):
     DH                = np.array(paramters_.DHEvol)
     
     time              = magList[0]                                                          #Equally spaced time vector
-    print(time[-1],t[-1])
-    print(np.shape(t),np.shape(tdc))
+    #print(time[-1],t[-1])
+    #print(np.shape(t),np.shape(tdc))
     sinwt             = np.sin(     2 * 3.1415927 * paramters_.frequency * time)            #Sinw finction to project into
     cos2wt            = np.cos( 2 * 2 * 3.1415927 * paramters_.frequency * time)            #Cos2w finction to project into
     current           = orgdensity * np.sin(2 * 3.1415927 * paramters_.frequency * time)    #AC current
