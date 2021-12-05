@@ -18,7 +18,7 @@ periSampl = 1000 #
 
 class Parameters:
     gamma = 2.2128e5
-    alpha      = float(st.sidebar.text_input('Gilbert damping constant', 1))
+    alpha      = float(st.sidebar.text_input('Gilbert damping constant', 0.1))
     K1         = float(st.sidebar.text_input('Anisotropy constant K_1 [J/m^3]', -181476))   
     K12        = float(st.sidebar.text_input('Anisotropy constant K_12 (along y) [J/m^3]', 0))
     Js         = float(st.sidebar.text_input('Saturation magnetization Js [T]', 1))
@@ -34,8 +34,8 @@ class Parameters:
     easy_axis = np.array([0,0,1])
     easy_axis2= np.array([0,1,0])
     p_axis = np.array([0,-1,0])
-    etadamp    = float(st.sidebar.text_input('Damping like torque term coefficient', 0.004))    
-    etafield   = float(st.sidebar.text_input('Field like torque term', 0.004))               # etafield/etadamp=eta
+    etadamp    = float(st.sidebar.text_input('Damping like torque term coefficient', 0.02))    
+    etafield   = float(st.sidebar.text_input('Field like torque term', 0.02))               # etafield/etadamp=eta
     eta        = etafield/etadamp
     hext = np.array([1.0 * K1/Js,0,0])
     area = (2e-6 * 6e-9)
@@ -496,6 +496,8 @@ st.write("Lastly, the resulting transfer curves using the Fourier series integra
 figv2w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{\omega} [V]$ ', "Vw", "First harmonic voltage" )
 figv1w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2\omega} [V]$ ', "V2w", "Second harmonic voltage" )
 
+figv1wxx = graph(fieldrangeT, signalwxx, r'$\mu_0 H_x$ (T)', r'$V_{\omega,XX} [V]$', r'$V_{\omega,XX} [V]$','First longitudinal harmonic voltage')
+figv2wxx = graph(fieldrangeT, signal2wxx, r'$\mu_0 H_x$ (T)', r'$V_{2\omega,XX} [V]$', r'$V_{2\omega,XX} [V]$','Second longitudinal harmonic voltage')
 #figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', r'$m_x^2$','AMR effect')
 #figahe = graph(fieldrangeT, aheList, r'$\mu_0 H_x$ (T)', r'$m_{z,+j_e}-m_{z,-j_e}$', r'$m_{z,+j_e}-m_{z,ij_e}$','AHE effect')
 
