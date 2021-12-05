@@ -33,7 +33,7 @@ class Parameters:
     mu0 = 4 * 3.1415927 * 1e-7
     easy_axis = np.array([0,0,1])
     easy_axis2= np.array([0,1,0])
-    p_axis = np.array([0,-1,0])
+    p_axis = np.array([0,1,0])
     etadamp    = float(st.sidebar.text_input('Damping like torque term coefficient', 0.02))    
     etafield   = float(st.sidebar.text_input('Field like torque term', 0.02))               # etafield/etadamp=eta
     eta        = etafield/etadamp
@@ -493,8 +493,8 @@ st.write(r'Where $i$ represents an index of the elements of the lists containing
 
 st.write("Lastly, the resulting transfer curves using the Fourier series integral definition are: ")
 
-figv2w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{\omega} [V]$ ', "Vw", "First harmonic voltage" )
-figv1w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2\omega} [V]$ ', "V2w", "Second harmonic voltage" )
+figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{\omega} [V]$ ', "Vw", "First harmonic voltage" )
+figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2\omega} [V]$ ', "V2w", "Second harmonic voltage" )
 
 figv1wxx = graph(fieldrangeT, signalwxx, r'$\mu_0 H_x$ (T)', r'$V_{\omega,XX} [V]$', r'$V_{\omega,XX} [V]$','First longitudinal harmonic voltage')
 figv2wxx = graph(fieldrangeT, signal2wxx, r'$\mu_0 H_x$ (T)', r'$V_{2\omega,XX} [V]$', r'$V_{2\omega,XX} [V]$','Second longitudinal harmonic voltage')
