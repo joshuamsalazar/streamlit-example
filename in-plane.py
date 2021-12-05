@@ -267,6 +267,9 @@ lsignal2w = []
 fsignal2w = []
 Hx,Hy,Hz = [[],[],[]]
 Mx,My,Mz = [[],[],[]]
+m_eqx, m_eqy, m_eqz = [[],[],[]]
+aheList, amrList = [[],[]]
+timeEvol = []
 fieldrangeT =[]
 phirangeRad=[]
 orgdensity = paramters.currentd
@@ -303,6 +306,12 @@ if longitudinalSweep:
         lsignal2w.append(lR2w)
         fsignal2w.append(fR2w)
         phirangeRad.append(0)
+        
+        paramters.currentd = -paramters.currentd
+        it1,imagList, iHs, itestSignal    = calc_equilibrium(m0_=initm,t0_=0,t1_=4/paramters.frequency,dt_=1/(periSampl * paramters.frequency), paramters_=paramters)
+        
+        aheList.append(mz[-1]-imagList[3][-1])
+        amrList.append(mx[-1]*mx[-1])
         print("Hext & |Hext| [T]:", paramters.hext*paramters.mu0, paramters.mu0*(paramters.hext[0]**2 
                                                                                  + paramters.hext[1]**2
                                                                                  + paramters.hext[2]**2)**0.5)
