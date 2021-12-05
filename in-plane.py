@@ -493,11 +493,11 @@ st.write(r'Where $i$ represents an index of the elements of the lists containing
 
 st.write("Lastly, the resulting transfer curves using the Fourier series integral definition are: ")
 
-figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2w} [V]$ ', "V2w", "First harmonic voltage" )
-figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{w} [V]$ ', "V2w", "Second harmonic voltage" )
+figv2w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{\omega} [V]$ ', "Vw", "First harmonic voltage" )
+figv1w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2\omega} [V]$ ', "V2w", "Second harmonic voltage" )
 
-figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', r'$m_x^2$','AMR effect')
-figahe = graph(fieldrangeT, aheList, r'$\mu_0 H_x$ (T)', r'$m_{z,+j_e}-m_{z,-j_e}$', r'$m_{z,+j_e}-m_{z,ij_e}$','AHE effect')
+#figamr = graph(fieldrangeT, amrList, r'$\mu_0 H_x$ (T)', r'$m_x^2$', r'$m_x^2$','AMR effect')
+#figahe = graph(fieldrangeT, aheList, r'$\mu_0 H_x$ (T)', r'$m_{z,+j_e}-m_{z,-j_e}$', r'$m_{z,+j_e}-m_{z,ij_e}$','AHE effect')
 
 figmag = graphm(fieldrangeT, m_eqx, m_eqy, m_eqz, r'$\mu_0 H_x$ (T)', r'$m_i$',  "Equilibrium direction of m") #index denotes field sweep step
 ##plt.plot(fieldrangeT, lsignal2w, label = 'lock in r2w')
