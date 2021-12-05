@@ -421,51 +421,51 @@ def graphm(t, mx, my, mz, xlab, ylab, plthead):
    plt.legend()
    return fig
 
-st.title('Magnetization dynamics for FM/HM interfaces, a single-spin model')
-st.header('Online LLG integrator')
-st.caption("Joshua Salazar, Sabri Koraltan, Harald Özelt, Dieter Suess")
-st.caption("Physics of Functional Materials")
-st.caption("University of Vienna")
+#st.title('Magnetization dynamics for FM/HM interfaces, a single-spin model')
+#st.header('Online LLG integrator')
+#st.caption("Joshua Salazar, Sabri Koraltan, Harald Özelt, Dieter Suess")
+#st.caption("Physics of Functional Materials")
+#st.caption("University of Vienna")
 
-st.write('The following page describes the details to consider to efficiently simulate a FM/HM interface. This model is based on the Landau-Lifshitz-Gilbert equation, and the equation is integrated using _scipy_ python libraries. Hence, the magnetization dynamics is computed  with this model, which also contains routines to calculate the first and second harmonics of the Anomalous Hall Voltage (from AH Effect). This interactve tool is designed to allow quick computations and detailed understanding of the considerations made to simulate such FM/HM interfaces. ')
-st.write('The parameters used in the computation for the live plot results can be freely manipulated using the left sidebar (_available clicking in the arrowhead on the top left of this web app_). Feel free to perform computations with the desired values. ')
+#st.write('The following page describes the details to consider to efficiently simulate a FM/HM interface. This model is based on the Landau-Lifshitz-Gilbert equation, and the equation is integrated using _scipy_ python libraries. Hence, the magnetization dynamics is computed  with this model, which also contains routines to calculate the first and second harmonics of the Anomalous Hall Voltage (from AH Effect). This interactve tool is designed to allow quick computations and detailed understanding of the considerations made to simulate such FM/HM interfaces. ')
+#st.write('The parameters used in the computation for the live plot results can be freely manipulated using the left sidebar (_available clicking in the arrowhead on the top left of this web app_). Feel free to perform computations with the desired values. ')
 
-st.subheader('Theoretical description')
+#st.subheader('Theoretical description')
 
-st.write('The system described by the model is a typical FM/HM interface. In our specific case, a Hall cross with a thin ferromagnetic layer displaying an out of plane magnetization (fig. 1).  ')
-st.image("https://journals.aps.org/prb/article/10.1103/PhysRevB.89.144425/figures/1/medium",
-        caption = "*Fig. 1* Hall bar structure. Adapted from Phys. Rev. B 89, 144425 (2014)",
-        width   = 400 )
+#st.write('The system described by the model is a typical FM/HM interface. In our specific case, a Hall cross with a thin ferromagnetic layer displaying an out of plane magnetization (fig. 1).  ')
+#st.image("https://journals.aps.org/prb/article/10.1103/PhysRevB.89.144425/figures/1/medium",
+#        caption = "*Fig. 1* Hall bar structure. Adapted from Phys. Rev. B 89, 144425 (2014)",
+#        width   = 400 )
 #($\eta_\text{DL}$ and $\eta_\text{FL}$)
-st.write(r'The LLG equation employed in the model is in explicit form and takes the Slonczewsky spin-orbit-torque coefficients as input. It goes as follows:')
-st.latex(r''' \frac{\partial \vec{m}}{\partial t} =-
-   \frac{\gamma}{1+\alpha^2} (\vec{m} \times \vec{H}_{\text{eff}}) - 
-   \frac{\gamma \alpha}{1+\alpha^2} \:\vec{m} \times (\vec{m} \times \vec{H}_{\text{eff}})''')
-st.write(r'Where $m$ represents the mgnetization unit vector, $\alpha$ the Gilbert damping constant, $\gamma$ the gyromagnetic ratio, and $\vec{H}_{\text{eff}}$ is the effective magnetic field. The effective magnetic field contains contributions of the applied external field, the effective anisotropy field, and the current induced fields via spin orbit torque effects. It reads as follows:')
-st.latex(r''' \vec{ H }_{\text{eff}} =
-\vec{ H }_{\text{ext}} + \vec{ H }_{\text{k}} + 
-\vec{ H }^{\text{SOT}}_{\text{FL}} + 
-\vec{ H }^{\text{SOT}}_{\text{DL}} \\ \:\\ \:\\
-\vec{ H }_{\text{k}} = \frac{2\vec{K}_1}{Js}  \\ \:\\
-\vec{ H }^{\text{SOT}}_{\text{FL}} = \eta_\text{FL} \frac{  j_e \hbar  }{ 2 e t \mu_0 M_s }\:\vec{m} \times (\vec{m} \times \vec{p}) \\ \:\\
-\vec{ H }^{\text{SOT}}_{\text{DL}} = \eta_\text{DL} \frac{  j_e \hbar  }{ 2 e t \mu_0 M_s }\:(\vec{m} \times \vec{p})
-''')
+#st.write(r'The LLG equation employed in the model is in explicit form and takes the Slonczewsky spin-orbit-torque coefficients as input. It goes as follows:')
+#st.latex(r''' \frac{\partial \vec{m}}{\partial t} =-
+#   \frac{\gamma}{1+\alpha^2} (\vec{m} \times \vec{H}_{\text{eff}}) - 
+#   \frac{\gamma \alpha}{1+\alpha^2} \:\vec{m} \times (\vec{m} \times \vec{H}_{\text{eff}})''')
+#st.write(r'Where $m$ represents the mgnetization unit vector, $\alpha$ the Gilbert damping constant, $\gamma$ the gyromagnetic ratio, and $\vec{H}_{\text{eff}}$ is the effective magnetic field. The effective magnetic field contains contributions of the applied external field, the effective anisotropy field, and the current induced fields via spin orbit torque effects. It reads as follows:')
+#st.latex(r''' \vec{ H }_{\text{eff}} =
+#\vec{ H }_{\text{ext}} + \vec{ H }_{\text{k}} + 
+#\vec{ H }^{\text{SOT}}_{\text{FL}} + 
+#\vec{ H }^{\text{SOT}}_{\text{DL}} \\ \:\\ \:\\
+#\vec{ H }_{\text{k}} = \frac{2\vec{K}_1}{Js}  \\ \:\\
+#\vec{ H }^{\text{SOT}}_{\text{FL}} = \eta_\text{FL} \frac{  j_e \hbar  }{ 2 e t \mu_0 M_s }\:\vec{m} \times (\vec{m} \times \vec{p}) \\ \:\\
+#\vec{ H }^{\text{SOT}}_{\text{DL}} = \eta_\text{DL} \frac{  j_e \hbar  }{ 2 e t \mu_0 M_s }\:(\vec{m} \times \vec{p})
+#''')
 
 
-st.write(r"The $\vec{p}$ vector represents the spin polarization of electrons. For a current flowing along the x direction, the vector is $(0,-1,0)$. As the here simulated system presents out of plane magnetization along the +z axis, the $\vec{K}_1$ anisotropy constant is represented by $(0,0,K_1)$")
-st.write("Therefore, this simplified model just describes out-of-plane systems with negligible Planar Hall Effect, compared to the Anomalous Hall Effect. It will get improved soon.")
+#st.write(r"The $\vec{p}$ vector represents the spin polarization of electrons. For a current flowing along the x direction, the vector is $(0,-1,0)$. As the here simulated system presents out of plane magnetization along the +z axis, the $\vec{K}_1$ anisotropy constant is represented by $(0,0,K_1)$")
+#st.write("Therefore, this simplified model just describes out-of-plane systems with negligible Planar Hall Effect, compared to the Anomalous Hall Effect. It will get improved soon.")
 
-st.caption("Performing the integration")
+#st.caption("Performing the integration")
 
-st.write("In order to accurately compute the first and second harmonic components of the Anomalous Hall Voltage, the period is, at least, split in 1000 equidistand time steps. This will ensure an accurate description of the time variation of the voltage induced by the AC current. Additionaly, it will improve the computation of the numerical Fourier integrals for getting the harmonic responses.")
-st.write("Under AC, the voltage is made up by the following harmonics:")
-st.latex(r''' V_{xy}(t) = V^{xy}_0 + V^{xy}_\omega\sin(\omega t) + V^{xy}_{2\omega}\cos(2\omega t) + ...''')
-st.write("Those harmonic components can be isolated by applying the Fourier series coefficient integral definition, integrating over one full period.")
-st.latex(r''' 
-   V^{xy}_{\omega}=\frac{2}{T}\int_{T} V(t)\sin(\omega t)\text{dt} \\ \: \\
-   V^{xy}_{2\omega}=\frac{2}{T}\int_{T} V(t)\cos(2\omega t)\text{dt} 
-   ''')
-st.write(r"As the system starts fully pointing in the z direction, it is important to simulate the electric current with a cosine wave $J_x=j_e \cos(\omega t)$. ")
+#st.write("In order to accurately compute the first and second harmonic components of the Anomalous Hall Voltage, the period is, at least, split in 1000 equidistand time steps. This will ensure an accurate description of the time variation of the voltage induced by the AC current. Additionaly, it will improve the computation of the numerical Fourier integrals for getting the harmonic responses.")
+#st.write("Under AC, the voltage is made up by the following harmonics:")
+#st.latex(r''' V_{xy}(t) = V^{xy}_0 + V^{xy}_\omega\sin(\omega t) + V^{xy}_{2\omega}\cos(2\omega t) + ...''')
+#st.write("Those harmonic components can be isolated by applying the Fourier series coefficient integral definition, integrating over one full period.")
+#st.latex(r''' 
+#   V^{xy}_{\omega}=\frac{2}{T}\int_{T} V(t)\sin(\omega t)\text{dt} \\ \: \\
+#   V^{xy}_{2\omega}=\frac{2}{T}\int_{T} V(t)\cos(2\omega t)\text{dt} 
+#   ''')
+#st.write(r"As the system starts fully pointing in the z direction, it is important to simulate the electric current with a cosine wave $J_x=j_e \cos(\omega t)$. ")
 
 if st.checkbox("Show relaxation of magnetization", True):
     selected_field = st.select_slider('Slide the bar to check the trajectories for an specific field value [A/m]',
@@ -480,18 +480,18 @@ if st.checkbox("Show relaxation of magnetization", True):
 
     st.pyplot(figtraj)
 
-st.write(r"As can be noted in the magnetization dynamics for a given external field value, the system quickly gets its magnetization direction according to the applied AC current. However, if we just employ a single period for the time integration, the result of the Fourier integral may differ from the actual coefficient, as the first time steps do not have a pure wave behavior.") 
+#st.write(r"As can be noted in the magnetization dynamics for a given external field value, the system quickly gets its magnetization direction according to the applied AC current. However, if we just employ a single period for the time integration, the result of the Fourier integral may differ from the actual coefficient, as the first time steps do not have a pure wave behavior.") 
 
 st.caption("Computing the harmonics")
 
-st.write(r"Therefore, in order to accurately compute the integral, each time integration of the LLG equation, for each $H_{\text{ext,x}}$ value, is performed over 4 complete periods $t_f=4/f$. Then, for computing the Fourier integral, the initial period of the time integration of the LLG equation is ommited from the computation. Furthermore, to improve the accuracy of the calculated harmonic component of the voltage, the remaining three periods are integrated and the normalization factor of the Fourier integral is adjusted accordingly. Finally, the integral is numerically approximated by the following sum:")
-st.latex(r''' 
+#st.write(r"Therefore, in order to accurately compute the integral, each time integration of the LLG equation, for each $H_{\text{ext,x}}$ value, is performed over 4 complete periods $t_f=4/f$. Then, for computing the Fourier integral, the initial period of the time integration of the LLG equation is ommited from the computation. Furthermore, to improve the accuracy of the calculated harmonic component of the voltage, the remaining three periods are integrated and the normalization factor of the Fourier integral is adjusted accordingly. Finally, the integral is numerically approximated by the following sum:")
+#st.latex(r''' 
 V^{xy}_{ \omega} \approx \frac{2}{t_f(3/4)} \sum^{4000}_{i=1000} ({J_x}_i {m_z}_i R_{ \text{AHE} }) \sin(\omega t_i) (\Delta t)_i \\ \: \\
 V^{xy}_{2\omega} \approx \frac{2}{t_f(3/4)} \sum^{4000}_{i=1000} ({J_x}_i {m_z}_i R_{ \text{AHE} }) \cos(2\omega t_i) (\Delta t)_i
 ''')
-st.write(r'Where $i$ represents an index of the elements of the lists containing the values of each step of the simulation (_Note that one period has been split into 1000 equidistant steps_). Inside the simulation the voltage is computed as $V^{xy}(t)=J_x(t) m_z(t) R_{AHE} \sigma$, where $\sigma$ is the cross section area of the conducting element. In our case $\sigma=(2 \mu m \times 6 \text{nm})$ ')
+#st.write(r'Where $i$ represents an index of the elements of the lists containing the values of each step of the simulation (_Note that one period has been split into 1000 equidistant steps_). Inside the simulation the voltage is computed as $V^{xy}(t)=J_x(t) m_z(t) R_{AHE} \sigma$, where $\sigma$ is the cross section area of the conducting element. In our case $\sigma=(2 \mu m \times 6 \text{nm})$ ')
 
-st.write("Lastly, the resulting transfer curves using the Fourier series integral definition are: ")
+#st.write("Lastly, the resulting transfer curves using the Fourier series integral definition are: ")
 
 figv1w = graph(fieldrangeT, signalw, r'$\mu_0 H_x$ (T)', r'$V_{\omega} [V]$ ', "Vw", "First harmonic voltage" )
 figv2w = graph(fieldrangeT, signal2w, r'$\mu_0 H_x$ (T)', r'$V_{2\omega} [V]$ ', "V2w", "Second harmonic voltage" )
@@ -511,12 +511,12 @@ st.pyplot(figv1w)
 st.pyplot(figv2w)
 
 
-st.write('If we just take in consideration the magnetization components to describe the AMR and AHE effects, the transfer curves are:')
+#st.write('If we just take in consideration the magnetization components to describe the AMR and AHE effects, the transfer curves are:')
 
 st.pyplot(figv1wxx)
 st.pyplot(figv2wxx)
 
-st.write("It is important to highligh that by inducing an AC there is no an exact static point for equilibrium magnetization. However, when the system reaches equilibrium with respect to the AC current, the magnetization direction of the last time step of each period may be regarded as equilibrium magnetization (check ref. [X] Phys. Rev. B 89, 144425 (2014))")
+#st.write("It is important to highligh that by inducing an AC there is no an exact static point for equilibrium magnetization. However, when the system reaches equilibrium with respect to the AC current, the magnetization direction of the last time step of each period may be regarded as equilibrium magnetization (check ref. [X] Phys. Rev. B 89, 144425 (2014))")
 
 st.pyplot(figmag)
 
