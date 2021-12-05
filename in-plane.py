@@ -513,8 +513,8 @@ st.pyplot(figv2w)
 
 st.write('If we just take in consideration the magnetization components to describe the AMR and AHE effects, the transfer curves are:')
 
-st.pyplot(figahe)
-st.pyplot(figamr)
+st.pyplot(figv1wxx)
+st.pyplot(figv2wxx)
 
 st.write("It is important to highligh that by inducing an AC there is no an exact static point for equilibrium magnetization. However, when the system reaches equilibrium with respect to the AC current, the magnetization direction of the last time step of each period may be regarded as equilibrium magnetization (check ref. [X] Phys. Rev. B 89, 144425 (2014))")
 
