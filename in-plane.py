@@ -308,7 +308,7 @@ if longitudinalSweep:
         phirangeRad.append(0)
         
         paramters.currentd = -paramters.currentd
-        it1,imagList, iHs, itestSignal    = calc_equilibrium(m0_=initm,t0_=0,t1_=4/paramters.frequency,dt_=1/(periSampl * paramters.frequency), paramters_=paramters)
+        imagList = calc_equilibrium(m0_=initm,t0_=0,t1_=4/paramters.frequency,dt_=1/(periSampl * paramters.frequency), paramters_=paramters)
         
         aheList.append(mz[-1]-imagList[3][-1])
         amrList.append(mx[-1]*mx[-1])
